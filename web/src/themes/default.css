@@ -1,50 +1,56 @@
 :root {
-  --background: oklch(0.9818 0.0054 95.0986);
-  --foreground: oklch(0.2438 0.0269 95.7226);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.1908 0.002 106.5859);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2671 0.0196 98.939);
-  --primary: oklch(0.45 0.08 250);
-  --primary-foreground: oklch(0.9818 0.0054 95.0986);
-  --secondary: oklch(0.9245 0.0138 92.9892);
-  --secondary-foreground: oklch(0.4334 0.0177 98.6048);
-  --muted: oklch(0.9341 0.0153 90.239);
-  --muted-foreground: oklch(0.5559 0.0075 97.4233);
-  --accent: oklch(0.9245 0.0138 92.9892);
-  --accent-foreground: oklch(0.2671 0.0196 98.939);
+  --background: oklch(0.977 0.009 300);
+  --foreground: oklch(0.255 0.021 295);
+  --card: oklch(0.997 0.004 300);
+  --card-foreground: oklch(0.245 0.021 295);
+  --popover: oklch(0.993 0.008 300);
+  --popover-foreground: oklch(0.255 0.021 295);
+  --primary: oklch(0.46 0.11 294);
+  --primary-foreground: oklch(0.99 0.005 300);
+  --secondary: oklch(0.927 0.026 300);
+  --secondary-foreground: oklch(0.365 0.05 294);
+  --muted: oklch(0.949 0.012 300);
+  --muted-foreground: oklch(0.48 0.024 294);
+  --accent: oklch(0.912 0.036 298);
+  --accent-foreground: oklch(0.32 0.07 294);
   --destructive: oklch(0.5 0.12 25);
   --destructive-foreground: oklch(1 0 0);
   --success: oklch(0.55 0.13 150);
   --success-foreground: oklch(0.98 0.01 150);
   --warning: oklch(0.62 0.12 70);
   --warning-foreground: oklch(0.25 0.03 75);
-  --border: oklch(0.8847 0.0069 97.3627);
-  --input: oklch(0.7621 0.0156 98.3528);
-  --ring: oklch(0.45 0.08 250);
+  --border: oklch(0.876 0.014 300);
+  --input: oklch(0.79 0.021 300);
+  --ring: oklch(0.53 0.105 294);
   /* Overlay - neutral scrim base behind dialogs, sheets, and focus mode.
      Alpha comes from the utility (bg-overlay/50, bg-overlay/20), so every
      theme dims rather than tinting with --foreground. */
   --overlay: oklch(0 0 0);
-  --sidebar: oklch(0.9663 0.008 98.8792);
-  --sidebar-foreground: oklch(0.359 0.0051 106.6524);
-  --sidebar-accent: oklch(0.9245 0.0138 92.9892);
-  --sidebar-accent-foreground: oklch(0.325 0 0);
+  --sidebar: oklch(0.947 0.019 300);
+  --sidebar-foreground: oklch(0.37 0.041 294);
+  --sidebar-accent: oklch(0.898 0.042 296);
+  --sidebar-accent-foreground: oklch(0.31 0.071 294);
+  --memo-lavender: oklch(0.946 0.029 302);
+  --memo-sage: oklch(0.951 0.034 150);
+  --memo-sky: oklch(0.947 0.03 230);
+  --memo-amber: oklch(0.955 0.047 84);
+  --memo-rose: oklch(0.95 0.036 12);
+  --memo-peach: oklch(0.958 0.042 52);
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --radius: 0.5rem;
+  --radius: 0.875rem;
   --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  --shadow-sm: 0 1px 3px 0px hsl(280 15% 25% / 0.07), 0 1px 2px -1px hsl(280 15% 25% / 0.06);
   --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
   --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
   --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
   --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
   /* A surface floating over page content: a soft contact edge plus a wide, faint ambient fall. */
-  --shadow-float: 0 1px 2px hsl(0 0% 0% / 0.05), 0 8px 24px -6px hsl(0 0% 0% / 0.1), 0 24px 56px -16px hsl(0 0% 0% / 0.14);
+  --shadow-float: 0 1px 2px hsl(280 15% 25% / 0.05), 0 8px 24px -6px hsl(280 15% 25% / 0.09), 0 24px 56px -16px hsl(280 15% 25% / 0.12);
 }
 
 /* Tailwind v4 token mappings — compiled once at build time, shared by all themes.

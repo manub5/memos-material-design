@@ -30,7 +30,7 @@ const PopoverContent = React.forwardRef<
           ref={ref}
           data-slot="popover-content"
           className={cn(
-            "bg-popover text-popover-foreground z-dropdown w-auto origin-(--transform-origin) rounded-md border p-1 shadow-md outline-hidden",
+            "bg-popover text-popover-foreground z-dropdown w-auto origin-(--transform-origin) rounded-xl border border-border/70 p-1 shadow-float outline-hidden",
             popupMotionClasses,
             className,
           )}

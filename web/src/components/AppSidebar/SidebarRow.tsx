@@ -59,7 +59,7 @@ export type SidebarRowState = "idle" | "current" | "checked";
 const SIDEBAR_ROW_HOVER_CLASSES = "hover:bg-sidebar-accent/65 hover:text-foreground";
 
 export const sidebarRowStateClasses = (state: SidebarRowState = "idle") => {
-  if (state === "current") return "bg-sidebar-accent font-medium text-sidebar-accent-foreground";
+  if (state === "current") return "bg-sidebar-accent font-medium text-sidebar-accent-foreground hover:bg-sidebar-accent";
   if (state === "checked") {
     // The mark hangs in the rail's 12px inset so the label stays on its rail.
     return `relative font-medium text-foreground ${SIDEBAR_ROW_HOVER_CLASSES} before:absolute before:inset-y-1.5 before:-start-3 before:w-0.5 before:rounded-e-full before:bg-primary before:content-['']`;

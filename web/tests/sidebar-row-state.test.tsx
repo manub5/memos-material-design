@@ -26,6 +26,7 @@ const tokens = (classes: string) => classes.split(" ");
 describe("sidebar selected grammar", () => {
   it("fills only a current row", () => {
     expect(tokens(sidebarRowStateClasses("current"))).toContain("bg-sidebar-accent");
+    expect(tokens(sidebarRowStateClasses("current"))).toContain("hover:bg-sidebar-accent");
     expect(tokens(sidebarRowStateClasses("checked"))).not.toContain("bg-sidebar-accent");
     expect(tokens(sidebarRowStateClasses("checked"))).toContain("before:bg-primary");
     expect(tokens(sidebarRowStateClasses())).not.toContain("font-medium");

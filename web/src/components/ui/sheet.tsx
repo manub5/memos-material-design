@@ -49,7 +49,7 @@ const SheetContent = React.forwardRef<
         ref={ref}
         data-slot="sheet-content"
         className={cn(
-          "bg-background fixed z-overlay flex flex-col gap-4 shadow-lg transition-transform duration-500 ease-in-out data-ending-style:duration-300",
+          "bg-popover text-popover-foreground fixed z-overlay flex flex-col gap-4 shadow-float transition-transform duration-500 ease-in-out data-ending-style:duration-300",
           side === "right" &&
             "inset-y-0 right-0 h-full w-3/4 border-l data-starting-style:translate-x-full data-ending-style:translate-x-full sm:max-w-sm",
           side === "left" &&
