@@ -24,6 +24,7 @@ const (
 	MemoService_GetMemo_FullMethodName              = "/memos.api.MemoService/GetMemo"
 	MemoService_CreateMemo_FullMethodName           = "/memos.api.MemoService/CreateMemo"
 	MemoService_UpdateMemo_FullMethodName           = "/memos.api.MemoService/UpdateMemo"
+	MemoService_MoveMemo_FullMethodName             = "/memos.api.MemoService/MoveMemo"
 	MemoService_DeleteMemo_FullMethodName           = "/memos.api.MemoService/DeleteMemo"
 	MemoService_ListMemoAttachments_FullMethodName  = "/memos.api.MemoService/ListMemoAttachments"
 	MemoService_SetMemoAttachments_FullMethodName   = "/memos.api.MemoService/SetMemoAttachments"
@@ -61,6 +62,9 @@ type MemoServiceClient interface {
 	// UpdateMemo updates the memo fields listed in update_mask. Requires the memo
 	// creator or an instance administrator.
 	UpdateMemo(ctx context.Context, in *UpdateMemoRequest, opts ...grpc.CallOption) (*Memo, error)
+	// MoveMemo changes the caller's ordering of one of their top-level memos.
+	// Requires authentication and ownership of the memo and any specified neighbors.
+	MoveMemo(ctx context.Context, in *MoveMemoRequest, opts ...grpc.CallOption) (*MoveMemoResponse, error)
 	// DeleteMemo deletes the named memo and its comment subtree, including nested
 	// replies and their owned resources. It removes incident relations for all
 	// deleted memos. Requires the memo creator or an instance administrator.
@@ -159,6 +163,16 @@ func (c *memoServiceClient) UpdateMemo(ctx context.Context, in *UpdateMemoReques
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Memo)
 	err := c.cc.Invoke(ctx, MemoService_UpdateMemo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *memoServiceClient) MoveMemo(ctx context.Context, in *MoveMemoRequest, opts ...grpc.CallOption) (*MoveMemoResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MoveMemoResponse)
+	err := c.cc.Invoke(ctx, MemoService_MoveMemo_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -344,6 +358,9 @@ type MemoServiceServer interface {
 	// UpdateMemo updates the memo fields listed in update_mask. Requires the memo
 	// creator or an instance administrator.
 	UpdateMemo(context.Context, *UpdateMemoRequest) (*Memo, error)
+	// MoveMemo changes the caller's ordering of one of their top-level memos.
+	// Requires authentication and ownership of the memo and any specified neighbors.
+	MoveMemo(context.Context, *MoveMemoRequest) (*MoveMemoResponse, error)
 	// DeleteMemo deletes the named memo and its comment subtree, including nested
 	// replies and their owned resources. It removes incident relations for all
 	// deleted memos. Requires the memo creator or an instance administrator.
@@ -419,6 +436,9 @@ func (UnimplementedMemoServiceServer) CreateMemo(context.Context, *CreateMemoReq
 }
 func (UnimplementedMemoServiceServer) UpdateMemo(context.Context, *UpdateMemoRequest) (*Memo, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateMemo not implemented")
+}
+func (UnimplementedMemoServiceServer) MoveMemo(context.Context, *MoveMemoRequest) (*MoveMemoResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method MoveMemo not implemented")
 }
 func (UnimplementedMemoServiceServer) DeleteMemo(context.Context, *DeleteMemoRequest) (*emptypb.Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteMemo not implemented")
@@ -557,6 +577,24 @@ func _MemoService_UpdateMemo_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MemoServiceServer).UpdateMemo(ctx, req.(*UpdateMemoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MemoService_MoveMemo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MoveMemoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MemoServiceServer).MoveMemo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MemoService_MoveMemo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MemoServiceServer).MoveMemo(ctx, req.(*MoveMemoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -871,6 +909,10 @@ var MemoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateMemo",
 			Handler:    _MemoService_UpdateMemo_Handler,
+		},
+		{
+			MethodName: "MoveMemo",
+			Handler:    _MemoService_MoveMemo_Handler,
 		},
 		{
 			MethodName: "DeleteMemo",

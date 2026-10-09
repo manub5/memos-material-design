@@ -39,11 +39,16 @@ func (s *APIService) prepareMemoCreate(ctx context.Context, user *store.User, in
 	if err != nil {
 		return nil, err
 	}
+	color, err := validateMemoColor(input.Color)
+	if err != nil {
+		return nil, err
+	}
 	memo := &store.Memo{
 		UID:        uid,
 		CreatorID:  user.ID,
 		Content:    input.Content,
 		Visibility: visibility,
+		Color:      color,
 	}
 	if input.Space != nil && input.GetSpace() != "" {
 		space, err := s.resolveSpaceForMemoPlacement(ctx, input.GetSpace(), user)

@@ -51,6 +51,15 @@ service MemoService {
     option (google.api.method_signature) = "memo,update_mask";
   }
 
+  // MoveMemo changes the caller's ordering of one of their top-level memos.
+  // Requires authentication and ownership of the memo and any specified neighbors.
+  rpc MoveMemo(MoveMemoRequest) returns (MoveMemoResponse) {
+    option (google.api.http) = {
+      post: "/api/{name=memos/*}:move"
+      body: "*"
+    };
+  }
+
   // DeleteMemo deletes the named memo and its comment subtree, including nested
   // replies and their owned resources. It removes incident relations for all
   // deleted memos. Requires the memo creator or an instance administrator.
@@ -199,6 +208,17 @@ enum Visibility {
   SPACE = 4;
 }
 
+// MemoColor identifies one of the theme-aware memo card surface colors.
+enum MemoColor {
+  MEMO_COLOR_UNSPECIFIED = 0;
+  MEMO_COLOR_LAVENDER = 1;
+  MEMO_COLOR_SAGE = 2;
+  MEMO_COLOR_SKY = 3;
+  MEMO_COLOR_AMBER = 4;
+  MEMO_COLOR_ROSE = 5;
+  MEMO_COLOR_PEACH = 6;
+}
+
 // Memo is a Markdown note written by a user.
 message Memo {
   option (google.api.resource) = {
@@ -283,6 +303,9 @@ message Memo {
   // creation.
   google.protobuf.Timestamp update_time = 17 [(google.api.field_behavior) = OPTIONAL];
 
+  // Optional. Theme-aware card color. UNSPECIFIED uses the neutral card surface.
+  MemoColor color = 18 [(google.api.field_behavior) = OPTIONAL];
+
   // Property holds properties computed from the memo content.
   message Property {
     // The text of the H1 heading when it is the first block of the content.
@@ -333,7 +356,8 @@ message ListMemosRequest {
 
   // Optional. The order to sort results by, as a comma-separated list of
   // fields following AIP-132. Defaults to "create_time desc".
-  // Supported fields: pinned, create_time, update_time, name.
+  // Supported fields: pinned, create_time, update_time, name, manual.
+  // "manual" is limited to the authenticated caller's own top-level memos.
   // Example: "pinned desc, create_time desc" or "update_time asc".
   // Note: order_by uses create_time / update_time, while the filter
   // expression uses created_ts / updated_ts for the same timestamps.
@@ -385,8 +409,26 @@ message UpdateMemoRequest {
 
   // Required. The fields to update. Supported paths: content, visibility,
   // space, pinned, state, create_time, update_time, location, attachments,
-  // relations.
+  // relations, color.
   google.protobuf.FieldMask update_mask = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Request message for MemoService.MoveMemo.
+message MoveMemoRequest {
+  // Required. Memo to move, in the caller's own active timeline.
+  string name = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Optional. The immediately preceding memo at the intended destination.
+  optional string before = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Optional. The immediately following memo at the intended destination.
+  optional string after = 3 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Response message for MemoService.MoveMemo.
+message MoveMemoResponse {
+  // The moved memo.
+  Memo memo = 1;
 }
 
 // Request message for MemoService.DeleteMemo.

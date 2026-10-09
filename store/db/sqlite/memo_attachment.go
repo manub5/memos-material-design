@@ -211,6 +211,9 @@ func applyMemoUpdate(ctx context.Context, executor memoUpdateExecer, update *sto
 	if v := update.Pinned; v != nil {
 		set, args = append(set, "`pinned` = ?"), append(args, *v)
 	}
+	if v := update.Color; v != nil {
+		set, args = append(set, "`color` = ?"), append(args, *v)
+	}
 	if v := update.Payload; v != nil {
 		payload, err := protojson.Marshal(v)
 		if err != nil {

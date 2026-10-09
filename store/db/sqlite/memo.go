@@ -32,8 +32,8 @@ func (d *DB) CreateMemo(ctx context.Context, create *store.Memo) (*store.Memo, e
 }
 
 func insertSQLiteMemo(ctx context.Context, tx dbExecutor, create *store.Memo) error {
-	fields := []string{"`uid`", "`creator_id`", "`content`", "`visibility`", "`payload`", "`space_id`"}
-	placeholder := []string{"?", "?", "?", "?", "?", "?"}
+	fields := []string{"`uid`", "`creator_id`", "`content`", "`visibility`", "`payload`", "`space_id`", "`color`"}
+	placeholder := []string{"?", "?", "?", "?", "?", "?", "?"}
 	payload := "{}"
 	if create.Payload != nil {
 		payloadBytes, err := protojson.Marshal(create.Payload)
@@ -42,7 +42,7 @@ func insertSQLiteMemo(ctx context.Context, tx dbExecutor, create *store.Memo) er
 		}
 		payload = string(payloadBytes)
 	}
-	args := []any{create.UID, create.CreatorID, create.Content, create.Visibility, payload, create.SpaceID}
+	args := []any{create.UID, create.CreatorID, create.Content, create.Visibility, payload, create.SpaceID, create.Color}
 
 	// Add custom timestamps if provided
 	if create.CreatedTs != 0 {
@@ -64,6 +64,11 @@ func insertSQLiteMemo(ctx context.Context, tx dbExecutor, create *store.Memo) er
 		&create.RowStatus,
 	); err != nil {
 		return err
+	}
+	if _, err := tx.ExecContext(ctx, `INSERT INTO memo_order (memo_id, creator_id, rank)
+		VALUES (?, ?, COALESCE((SELECT MIN(rank) FROM memo_order WHERE creator_id = ?), 1024) - 1024)`,
+		create.ID, create.CreatorID, create.CreatorID); err != nil {
+		return errors.Wrap(err, "failed to initialize memo order")
 	}
 	return nil
 }
@@ -198,6 +203,9 @@ func (d *DB) ListMemos(ctx context.Context, find *store.FindMemo) ([]*store.Memo
 	}
 	// Add id as final tie-breaker
 	orderBy = append(orderBy, "`id` DESC")
+	if find.OrderByManual {
+		orderBy = []string{"`memo_order`.`rank` ASC", "`memo`.`id` DESC"}
+	}
 	fields := []string{
 		"`memo`.`id` AS `id`",
 		"`memo`.`uid` AS `uid`",
@@ -207,6 +215,7 @@ func (d *DB) ListMemos(ctx context.Context, find *store.FindMemo) ([]*store.Memo
 		"`memo`.`row_status` AS `row_status`",
 		"`memo`.`visibility` AS `visibility`",
 		"`memo`.`pinned` AS `pinned`",
+		"`memo`.`color` AS `color`",
 		"`memo`.`payload` AS `payload`",
 		"`memo`.`space_id` AS `space_id`",
 		`(SELECT parent_memo.uid
@@ -219,7 +228,11 @@ func (d *DB) ListMemos(ctx context.Context, find *store.FindMemo) ([]*store.Memo
 		fields = append(fields, "`memo`.`content` AS `content`")
 	}
 
-	query := "SELECT " + strings.Join(fields, ", ") + " FROM `memo` " +
+	manualJoin := ""
+	if find.OrderByManual {
+		manualJoin = "JOIN `memo_order` ON `memo_order`.`memo_id` = `memo`.`id` "
+	}
+	query := "SELECT " + strings.Join(fields, ", ") + " FROM `memo` " + manualJoin +
 		"LEFT JOIN `user` AS `memo_creator` ON `memo`.`creator_id` = `memo_creator`.`id` " +
 		"LEFT JOIN `space` AS `memo_space` ON `memo`.`space_id` = `memo_space`.`id` " +
 		"WHERE " + strings.Join(where, " AND ") + " " +
@@ -250,6 +263,7 @@ func (d *DB) ListMemos(ctx context.Context, find *store.FindMemo) ([]*store.Memo
 			&memo.RowStatus,
 			&memo.Visibility,
 			&memo.Pinned,
+			&memo.Color,
 			&payloadBytes,
 			&memo.SpaceID,
 			&memo.ParentUID,
@@ -291,6 +305,24 @@ func (d *DB) UpdateMemo(ctx context.Context, update *store.UpdateMemo) error {
 		return err
 	}
 	return tx.Commit()
+}
+
+func (d *DB) MoveMemo(ctx context.Context, move *store.MoveMemo) error {
+	tx, err := d.db.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = tx.Rollback() }()
+	if err := store.MoveMemoInTransaction(ctx, tx, store.MemoOrderSQLite, move); err != nil {
+		return err
+	}
+	return tx.Commit()
+}
+
+func (d *DB) MemoOrderRevision(ctx context.Context, creatorID int32) (uint64, error) {
+	var revision uint64
+	err := d.db.QueryRowContext(ctx, "SELECT COALESCE((SELECT revision FROM memo_order_revision WHERE creator_id = ?), 0)", creatorID).Scan(&revision)
+	return revision, err
 }
 
 func (d *DB) DeleteMemo(ctx context.Context, delete *store.DeleteMemo) error {

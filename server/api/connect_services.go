@@ -397,6 +397,14 @@ func (s *ConnectServiceHandler) UpdateMemo(ctx context.Context, req *connect.Req
 	return connect.NewResponse(resp), nil
 }
 
+func (s *ConnectServiceHandler) MoveMemo(ctx context.Context, req *connect.Request[apipb.MoveMemoRequest]) (*connect.Response[apipb.MoveMemoResponse], error) {
+	resp, err := s.APIService.MoveMemo(ctx, req.Msg)
+	if err != nil {
+		return nil, convertGRPCError(err)
+	}
+	return connect.NewResponse(resp), nil
+}
+
 func (s *ConnectServiceHandler) DeleteMemo(ctx context.Context, req *connect.Request[apipb.DeleteMemoRequest]) (*connect.Response[emptypb.Empty], error) {
 	resp, err := s.APIService.DeleteMemo(ctx, req.Msg)
 	if err != nil {

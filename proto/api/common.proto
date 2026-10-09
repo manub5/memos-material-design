@@ -30,4 +30,7 @@ message PageToken {
 
   // The number of items to skip before the next page.
   int32 offset = 2;
+
+  // The owner's order revision for manual memo pagination. Zero for legacy sorting.
+  uint64 order_revision = 3;
 }

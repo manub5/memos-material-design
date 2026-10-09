@@ -18,6 +18,118 @@ import (
 	"github.com/usememos/memos/store"
 )
 
+func TestMemoColorPersistsAcrossCreateAndUpdate(t *testing.T) {
+	ctx := context.Background()
+	ts := NewTestService(t)
+	defer ts.Cleanup()
+	owner, err := ts.CreateRegularUser(ctx, "color-owner")
+	require.NoError(t, err)
+	ownerCtx := ts.CreateUserContext(ctx, owner.ID)
+
+	memo, err := ts.Service.CreateMemo(ownerCtx, &apipb.CreateMemoRequest{Memo: &apipb.Memo{
+		Content: "colored memo", Color: apipb.MemoColor_MEMO_COLOR_SAGE,
+	}})
+	require.NoError(t, err)
+	require.Equal(t, apipb.MemoColor_MEMO_COLOR_SAGE, memo.Color)
+
+	updated, err := ts.Service.UpdateMemo(ownerCtx, &apipb.UpdateMemoRequest{
+		Memo: &apipb.Memo{Name: memo.Name, Color: apipb.MemoColor_MEMO_COLOR_ROSE},
+		UpdateMask: &fieldmaskpb.FieldMask{Paths: []string{"color"}},
+	})
+	require.NoError(t, err)
+	require.Equal(t, apipb.MemoColor_MEMO_COLOR_ROSE, updated.Color)
+
+	got, err := ts.Service.GetMemo(ownerCtx, &apipb.GetMemoRequest{Name: memo.Name})
+	require.NoError(t, err)
+	require.Equal(t, apipb.MemoColor_MEMO_COLOR_ROSE, got.Color)
+}
+
+func TestMemoColorRejectsUnknownValuesAndAllowsReset(t *testing.T) {
+	ctx := context.Background()
+	ts := NewTestService(t)
+	defer ts.Cleanup()
+	owner, err := ts.CreateRegularUser(ctx, "color-validation-owner")
+	require.NoError(t, err)
+	ownerCtx := ts.CreateUserContext(ctx, owner.ID)
+	_, err = ts.Service.CreateMemo(ownerCtx, &apipb.CreateMemoRequest{Memo: &apipb.Memo{
+		Content: "invalid", Color: apipb.MemoColor(999),
+	}})
+	require.Equal(t, codes.InvalidArgument, status.Code(err))
+
+	memo, err := ts.Service.CreateMemo(ownerCtx, &apipb.CreateMemoRequest{Memo: &apipb.Memo{
+		Content: "valid", Color: apipb.MemoColor_MEMO_COLOR_PEACH,
+	}})
+	require.NoError(t, err)
+	_, err = ts.Service.UpdateMemo(ownerCtx, &apipb.UpdateMemoRequest{
+		Memo: &apipb.Memo{Name: memo.Name, Color: apipb.MemoColor(999)},
+		UpdateMask: &fieldmaskpb.FieldMask{Paths: []string{"color"}},
+	})
+	require.Equal(t, codes.InvalidArgument, status.Code(err))
+
+	reset, err := ts.Service.UpdateMemo(ownerCtx, &apipb.UpdateMemoRequest{
+		Memo: &apipb.Memo{Name: memo.Name},
+		UpdateMask: &fieldmaskpb.FieldMask{Paths: []string{"color"}},
+	})
+	require.NoError(t, err)
+	require.Equal(t, apipb.MemoColor_MEMO_COLOR_UNSPECIFIED, reset.Color)
+}
+
+func TestMoveMemoContract(t *testing.T) {
+	require.Equal(t, "memos/abc", (&apipb.MoveMemoRequest{Name: "memos/abc"}).Name)
+}
+
+func TestMoveMemoOwnerOrderAndPermissions(t *testing.T) {
+	ctx := context.Background()
+	ts := NewTestService(t)
+	defer ts.Cleanup()
+	owner, err := ts.CreateRegularUser(ctx, "order-owner")
+	require.NoError(t, err)
+	ownerCtx := ts.CreateUserContext(ctx, owner.ID)
+	other, err := ts.CreateRegularUser(ctx, "order-other")
+	require.NoError(t, err)
+	otherCtx := ts.CreateUserContext(ctx, other.ID)
+
+	first, err := ts.Service.CreateMemo(ownerCtx, &apipb.CreateMemoRequest{Memo: &apipb.Memo{Content: "first"}})
+	require.NoError(t, err)
+	second, err := ts.Service.CreateMemo(ownerCtx, &apipb.CreateMemoRequest{Memo: &apipb.Memo{Content: "second"}})
+	require.NoError(t, err)
+	third, err := ts.Service.CreateMemo(ownerCtx, &apipb.CreateMemoRequest{Memo: &apipb.Memo{Content: "third"}})
+	require.NoError(t, err)
+	_, err = ts.Service.MoveMemo(otherCtx, &apipb.MoveMemoRequest{Name: first.Name})
+	require.Equal(t, codes.PermissionDenied, status.Code(err))
+	foreign, err := ts.Service.CreateMemo(otherCtx, &apipb.CreateMemoRequest{Memo: &apipb.Memo{Content: "foreign"}})
+	require.NoError(t, err)
+	_, err = ts.Service.MoveMemo(ownerCtx, &apipb.MoveMemoRequest{Name: first.Name, After: &foreign.Name})
+	require.Equal(t, codes.PermissionDenied, status.Code(err))
+	_, err = ts.Service.MoveMemo(ownerCtx, &apipb.MoveMemoRequest{Name: first.Name, After: &third.Name})
+	require.NoError(t, err)
+	_, err = ts.Service.MoveMemo(ownerCtx, &apipb.MoveMemoRequest{Name: first.Name, After: &third.Name})
+	require.NoError(t, err, "replaying the same move is idempotent")
+	feed, err := ts.Service.ListMemos(ownerCtx, &apipb.ListMemosRequest{OrderBy: "manual"})
+	require.NoError(t, err)
+	require.Equal(t, []string{first.Name, third.Name, second.Name}, []string{feed.Memos[0].Name, feed.Memos[1].Name, feed.Memos[2].Name})
+}
+
+func TestListMemosManualPageTokenInvalidatedByMove(t *testing.T) {
+	ctx := context.Background()
+	ts := NewTestService(t)
+	defer ts.Cleanup()
+	owner, err := ts.CreateRegularUser(ctx, "order-page-owner")
+	require.NoError(t, err)
+	ownerCtx := ts.CreateUserContext(ctx, owner.ID)
+	first, err := ts.Service.CreateMemo(ownerCtx, &apipb.CreateMemoRequest{Memo: &apipb.Memo{Content: "first"}})
+	require.NoError(t, err)
+	_, err = ts.Service.CreateMemo(ownerCtx, &apipb.CreateMemoRequest{Memo: &apipb.Memo{Content: "second"}})
+	require.NoError(t, err)
+	page, err := ts.Service.ListMemos(ownerCtx, &apipb.ListMemosRequest{OrderBy: "manual", PageSize: 1})
+	require.NoError(t, err)
+	require.NotEmpty(t, page.NextPageToken)
+	_, err = ts.Service.MoveMemo(ownerCtx, &apipb.MoveMemoRequest{Name: first.Name})
+	require.NoError(t, err)
+	_, err = ts.Service.ListMemos(ownerCtx, &apipb.ListMemosRequest{OrderBy: "manual", PageToken: page.NextPageToken})
+	require.Equal(t, codes.Aborted, status.Code(err))
+}
+
 func TestAnonymousMemoAccessFollowsInstanceAccessSetting(t *testing.T) {
 	ctx := context.Background()
 	ts := NewTestService(t)

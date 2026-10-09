@@ -32,6 +32,8 @@ type Driver interface {
 	CreateMemo(ctx context.Context, create *Memo) (*Memo, error)
 	ListMemos(ctx context.Context, find *FindMemo) ([]*Memo, error)
 	UpdateMemo(ctx context.Context, update *UpdateMemo) error
+	MoveMemo(ctx context.Context, move *MoveMemo) error
+	MemoOrderRevision(ctx context.Context, creatorID int32) (uint64, error)
 	DeleteMemo(ctx context.Context, delete *DeleteMemo) error
 	DeleteMemoWithPolicy(ctx context.Context, delete *DeleteMemoWithPolicy) (*DeleteMemoWithPolicyResult, error)
 

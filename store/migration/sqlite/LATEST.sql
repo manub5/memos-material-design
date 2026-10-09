@@ -62,12 +62,25 @@ CREATE TABLE memo (
   content TEXT NOT NULL DEFAULT '',
   visibility TEXT NOT NULL CHECK (visibility IN ('PUBLIC', 'PROTECTED', 'PRIVATE', 'SPACE')) DEFAULT 'PRIVATE',
   pinned INTEGER NOT NULL CHECK (pinned IN (0, 1)) DEFAULT 0,
+  color TEXT NOT NULL DEFAULT '',
   payload TEXT NOT NULL DEFAULT '{}',
   space_id INTEGER DEFAULT NULL
 );
 
 CREATE INDEX idx_memo_creator_id ON memo(creator_id);
 CREATE INDEX idx_memo_space_id ON memo(space_id, row_status, created_ts DESC, id DESC);
+
+CREATE TABLE memo_order (
+  memo_id INTEGER PRIMARY KEY REFERENCES memo(id) ON DELETE CASCADE,
+  creator_id INTEGER NOT NULL,
+  rank BIGINT NOT NULL
+);
+CREATE INDEX idx_memo_order_creator_rank ON memo_order(creator_id, rank, memo_id);
+
+CREATE TABLE memo_order_revision (
+  creator_id INTEGER PRIMARY KEY,
+  revision BIGINT NOT NULL DEFAULT 0
+);
 
 -- memo_relation
 CREATE TABLE memo_relation (
