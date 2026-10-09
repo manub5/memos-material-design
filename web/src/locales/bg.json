@@ -272,6 +272,16 @@
     },
     "copy-content": "Копиране на съдържание",
     "copy-link": "Копиране на връзката",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} в {{date}}",
     "count-memos-updated-in-date": "{{count}} {{memos}} актуализиран на {{date}}",
     "delete-confirm": "Сигурни ли сте, че искате да изтриете тази бележка?",

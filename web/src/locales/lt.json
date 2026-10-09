@@ -272,6 +272,16 @@
     },
     "copy-content": "Kopijuoti turinį",
     "copy-link": "Kopijuoti nuorodą",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} {{date}}",
     "count-memos-updated-in-date": "{{count}} {{memos}} atnaujintas {{date}}",
     "delete-confirm": "Ar tikrai norite ištrinti šią atmintinę?",

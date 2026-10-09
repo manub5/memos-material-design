@@ -305,6 +305,16 @@
     },
     "copy-content": "העתק תוכן",
     "copy-link": "העתק קישור",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} בתאריך {{date}}",
     "count-memos-updated-in-date": "עודכנו {{count}} {{memos}} בתאריך {{date}}",
     "delete-confirm": "האם אתם בטוחים שברצונכם למחוק את הפתק הזה?\n\nפעולה זו אינה הפיכה",

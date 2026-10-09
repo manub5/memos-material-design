@@ -272,6 +272,16 @@
     },
     "copy-content": "Копирај садржај",
     "copy-link": "Копирај везу",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} у {{date}}",
     "count-memos-updated-in-date": "{{count}} {{memos}} ажуриран на {{date}}",
     "delete-confirm": "Да ли сте сигурни да желите да избришете ову белешку?",

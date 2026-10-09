@@ -232,6 +232,16 @@
       "self": "Commentaires",
       "write-a-comment": "Écrire un commentaire"
     },
+    "color": "Couleur",
+    "color-neutral": "Aucune",
+    "colors": {
+      "lavender": "Lavande",
+      "sage": "Sauge",
+      "sky": "Ciel",
+      "amber": "Ambre",
+      "rose": "Rose",
+      "peach": "Pêche"
+    },
     "copy-content": "Copier le contenu",
     "copy-link": "Copier le lien",
     "count-memos-in-date": "{{count}} {{memos}} le {{date}}",

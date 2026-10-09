@@ -229,6 +229,16 @@
     },
     "copy-content": "Copiar conteúdo",
     "copy-link": "Copiar link",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} em {{date}}",
     "delete-confirm": "Tem certeza de que deseja deletar este memo?\n\nESTA AÇÃO É IRREVERSÍVEL",
     "delete-confirm-description": "Esta ação é irreversível. Anexos, links e referências também serão removidos.",

@@ -234,6 +234,16 @@
     },
     "copy-content": "Kopier innhold",
     "copy-link": "Kopier link",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} på {{date}}",
     "delete-confirm": "Er du sikker på at du vil slette denne memoen? DENNE HANDLINGEN KAN IKKE ANGRES",
     "delete-confirm-description": "Denne handlingen kan ikke angres. Vedlegg, lenker og referanser vil også bli fjernet.",

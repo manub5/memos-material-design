@@ -272,6 +272,16 @@
     },
     "copy-content": "Kopírovať obsah",
     "copy-link": "Kopírovať odkaz",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} v {{date}}",
     "count-memos-updated-in-date": "{{count}} {{memos}} aktualizované na {{date}}",
     "delete-confirm": "Naozaj chcete odstrániť túto poznámku?",

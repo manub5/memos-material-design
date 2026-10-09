@@ -234,6 +234,16 @@
     },
     "copy-content": "Kopírovat obsah",
     "copy-link": "Kopírovat odkaz",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} v {{date}}",
     "delete-confirm": "Opravdu chcete smazat tuto poznámku?",
     "delete-confirm-description": "Tato akce je nevratná. Přílohy, odkazy a reference budou také odstraněny.",

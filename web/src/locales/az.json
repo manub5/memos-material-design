@@ -337,6 +337,16 @@
     },
     "copy-content": "Məzmunu kopyala",
     "copy-link": "Keçidi kopyala",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{date}} tarixində {{count}} {{memos}}",
     "count-memos-updated-in-date": "{{date}} tarixində yenilənən {{count}} {{memos}}",
     "delete-confirm": "Bu qeydi silmək istədiyinizə əminsiniz?",

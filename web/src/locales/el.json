@@ -272,6 +272,16 @@
     },
     "copy-content": "Αντιγραφή περιεχομένου",
     "copy-link": "Αντιγραφή συνδέσμου",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} σε {{date}}",
     "count-memos-updated-in-date": "{{count}} Το {{memos}} ενημερώθηκε στο {{date}}",
     "delete-confirm": "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτό το σημείωμα;",

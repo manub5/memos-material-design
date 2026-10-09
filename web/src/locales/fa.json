@@ -229,6 +229,16 @@
     },
     "copy-content": "کپی محتوا",
     "copy-link": "کپی پیوند",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} در {{date}}",
     "delete-confirm": "آیا مطمئن هستید که می‌خواهید این یادداشت را حذف کنید؟",
     "delete-confirm-description": "این عمل غیرقابل بازگشت است. پیوست‌ها، پیوندها و ارجاعات نیز حذف خواهند شد.",

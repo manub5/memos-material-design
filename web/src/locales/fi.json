@@ -272,6 +272,16 @@
     },
     "copy-content": "Kopioi sisältö",
     "copy-link": "Kopioi linkki",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} {{date}}:ssä",
     "count-memos-updated-in-date": "{{count}} {{memos}} päivitetty {{date}}:ään",
     "delete-confirm": "Haluatko varmasti poistaa tämän muistion?",

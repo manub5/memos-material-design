@@ -261,6 +261,16 @@
     },
     "copy-content": "复制内容",
     "copy-link": "复制链接",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{date}} 有 {{count}} 条 {{memos}}",
     "delete-confirm": "您确定要删除此条备忘录吗？",
     "delete-confirm-description": "此操作是不可逆的，附件、链接和引用也会被删除。",

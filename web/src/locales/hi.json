@@ -229,6 +229,16 @@
     },
     "copy-content": "सामग्री कॉपी करें",
     "copy-link": "लिंक कॉपी करें",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} {{date}} को",
     "delete-confirm": "क्या आप इस मेमो को हटाने के लिए सुनिश्चित हैं? यह कार्रवाई वापस नहीं की जा सकती।",
     "delete-confirm-description": "यह कार्रवाई वापस नहीं की जा सकती। संलग्नक, लिंक और संदर्भ भी हटा दिए जाएंगे।",

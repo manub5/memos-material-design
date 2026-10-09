@@ -272,6 +272,16 @@
     },
     "copy-content": "Kopeeri sisu",
     "copy-link": "Kopeeri link",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} mudelis {{date}}",
     "count-memos-updated-in-date": "{{count}} {{memos}} on värskendatud {{date}}-l",
     "delete-confirm": "Kas olete kindel, et soovite selle memo kustutada?",

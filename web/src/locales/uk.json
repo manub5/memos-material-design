@@ -234,6 +234,16 @@
     },
     "copy-content": "Копіювати вміст",
     "copy-link": "Скопіювати посилання",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} в {{date}}",
     "delete-confirm": "Ви впевнені, що хочете видалити цю нотатку? ЦЯ ДІЯ Є НЕВІДКЛИКНОЮ",
     "delete-confirm-description": "Ця дія є незворотною. Вкладення, посилання та посилання також буде видалено.",

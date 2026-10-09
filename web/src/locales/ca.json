@@ -234,6 +234,16 @@
     },
     "copy-content": "Copia el contingut",
     "copy-link": "Copia l'enllaç",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} el {{date}}",
     "delete-confirm": "Estàs segur que vols esborrar aquesta nota? AQUESTA ACCIÓ ÉS IRREVERSIBLE",
     "delete-confirm-description": "Aquesta acció és irreversible. Els adjunts, enllaços i referències també s'eliminaran.",

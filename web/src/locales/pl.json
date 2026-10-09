@@ -234,6 +234,16 @@
     },
     "copy-content": "Kopiuj treść",
     "copy-link": "Kopiuj link",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} w dniu {{date}}",
     "delete-confirm": "Czy na pewno chcesz usunąć tę notatkę?",
     "delete-confirm-description": "Czy na pewno chcesz usunąć tę notatkę? Załączniki, linki i odnośniki także będą usunięte. TA AKCJA JEST NIEODWRACALNA",

@@ -272,6 +272,16 @@
     },
     "copy-content": "Copiați conținut",
     "copy-link": "Copiați linkul",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} în {{date}}",
     "count-memos-updated-in-date": "{{count}} {{memos}} actualizat pe {{date}}",
     "delete-confirm": "Sigur doriți să ștergeți această notă?",

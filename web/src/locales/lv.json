@@ -272,6 +272,16 @@
     },
     "copy-content": "Kopēt saturu",
     "copy-link": "Kopēt saiti",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} {{date}}",
     "count-memos-updated-in-date": "{{count}} {{memos}} atjaunināts uz {{date}}",
     "delete-confirm": "Vai tiešām vēlaties dzēst šo piezīmi?",

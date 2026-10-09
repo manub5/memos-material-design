@@ -234,6 +234,16 @@
     },
     "copy-content": "Copiar contenido",
     "copy-link": "Copiar enlace",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} en {{date}}",
     "delete-confirm": "¿Estás seguro de que quieres eliminar este memo?",
     "delete-confirm-description": "Esta acción es irreversible. Los adjuntos, enlaces y referencias también se eliminarán.",

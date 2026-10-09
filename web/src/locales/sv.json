@@ -234,6 +234,16 @@
     },
     "copy-content": "Kopiera innehåll",
     "copy-link": "Kopiera länk",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} i {{date}}",
     "delete-confirm": "Är du säker på att du vill radera denna anteckning? DENNA ÅTGÄRD ÄR OÅTERKALLELIG",
     "delete-confirm-description": "Denna åtgärd är oåterkallelig. Bilagor, länk och referenser kommer också att tas bort.",
