@@ -17,6 +17,7 @@ const handlers = vi.hoisted(() => ({
   handleUncheckAllTaskListItemsClick: vi.fn(),
   handleDeleteMemoClick: vi.fn(),
   confirmDeleteMemo: vi.fn(),
+  handleSetMemoColor: vi.fn(),
 }));
 
 vi.mock("@/components/ConfirmDialog", () => ({
@@ -64,7 +65,15 @@ describe("MemoActionMenu", () => {
 
   it("groups an owner's memo actions by what they do to the card and puts Delete last, with no Move entry", async () => {
     await openMenu(memoOf({ space: "spaces/work" }));
-    expect(menuItemLabels()).toEqual(["common.edit", "common.pin", "common.archive", "common.open", "common.copy", "common.delete"]);
+    expect(menuItemLabels()).toEqual([
+      "common.edit",
+      "memo.color",
+      "common.pin",
+      "common.archive",
+      "common.open",
+      "common.copy",
+      "common.delete",
+    ]);
     const separators = screen.getAllByRole("separator");
     expect(separators[separators.length - 1].nextElementSibling).toBe(screen.getByRole("menuitem", { name: "common.delete" }));
   });
@@ -88,7 +97,7 @@ describe("MemoActionMenu", () => {
   it("hides Open on the memo's own page", async () => {
     handlers.isInMemoDetailPage = true;
     await openMenu(memoOf());
-    expect(menuItemLabels()).toEqual(["common.edit", "common.pin", "common.archive", "common.copy", "common.delete"]);
+    expect(menuItemLabels()).toEqual(["common.edit", "memo.color", "common.pin", "common.archive", "common.copy", "common.delete"]);
   });
 
   it.each([
@@ -96,7 +105,7 @@ describe("MemoActionMenu", () => {
     [false, "memo.task-actions.uncheck-all", "handleUncheckAllTaskListItemsClick"],
   ] as const)("shows one task action right after Edit (open tasks: %s)", async (hasIncompleteTasks, label, handler) => {
     await openMenu(memoOf({ property: { hasTaskList: true, hasIncompleteTasks } }));
-    expect(menuItemLabels().slice(0, 3)).toEqual(["common.edit", label, "common.pin"]);
+    expect(menuItemLabels().slice(0, 3)).toEqual(["common.edit", label, "memo.color"]);
     fireEvent.click(screen.getByRole("menuitem", { name: label }));
     expect(handlers[handler]).toHaveBeenCalledOnce();
   });

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
+import { memoColorName } from "@/components/MemoView/memoPalette";
 import { useAuth } from "@/contexts/AuthContext";
 import { useInstance } from "@/contexts/InstanceContext";
 import { useLocalStorage } from "@/hooks";
@@ -357,8 +358,12 @@ const MemoEditorImpl: React.FC<MemoEditorProps> = ({
 
       <div
         ref={editorContainerRef}
+        data-memo-color={memo ? memoColorName(memo.color) : undefined}
+        style={
+          memo && memoColorName(memo.color) && !isFocusMode ? { backgroundColor: `var(--memo-${memoColorName(memo.color)})` } : undefined
+        }
         className={cn(
-          "group relative w-full flex flex-col justify-between items-start bg-card px-4 py-3 rounded-lg border border-border/70 gap-2",
+          "group relative w-full flex flex-col justify-between items-start bg-card text-card-foreground px-4 py-3 rounded-xl border border-border/60 shadow-sm gap-2",
           FOCUS_MODE_STYLES.transition,
           isFocusMode && cn(FOCUS_MODE_STYLES.container.base, FOCUS_MODE_STYLES.container.spacing),
           !isFocusMode && className,

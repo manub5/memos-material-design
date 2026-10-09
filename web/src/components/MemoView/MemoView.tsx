@@ -28,6 +28,7 @@ import MemoPinnedMark from "./components/MemoPinnedMark";
 import { MEMO_CARD_BASE_CLASSES } from "./constants";
 import { useImagePreview } from "./hooks";
 import { computeCommentAmount, MemoViewContext } from "./MemoViewContext";
+import { memoColorName } from "./memoPalette";
 import { isMemoDetailPath, resolveMemoParentPage } from "./navigation";
 import type { MemoViewHandle, MemoViewProps } from "./types";
 
@@ -186,6 +187,8 @@ const MemoView = forwardRef<MemoViewHandle, MemoViewProps>((props, ref) => {
   const article = (
     <article
       className={cn(MEMO_CARD_BASE_CLASSES, "group/memo", showCommentPreview ? "mb-0 rounded-b-none" : "mb-2", className)}
+      data-memo-color={memoColorName(memoData.color)}
+      style={memoColorName(memoData.color) ? { backgroundColor: `var(--memo-${memoColorName(memoData.color)})` } : undefined}
       ref={cardRef}
       tabIndex={readonly ? -1 : 0}
     >

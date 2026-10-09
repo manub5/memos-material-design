@@ -11,7 +11,7 @@ import { handleError } from "@/lib/error";
 import { extractMemoIdFromName } from "@/lib/resource-names";
 import { ROUTES } from "@/router/routes";
 import { State } from "@/types/proto/api/common_pb";
-import type { Memo } from "@/types/proto/api/memo_service_pb";
+import type { Memo, MemoColor } from "@/types/proto/api/memo_service_pb";
 import { useTranslate } from "@/utils/i18n";
 import { checkAllTasks, uncheckAllTasks } from "@/utils/markdown-task-actions";
 import { isMemoDetailPath } from "../MemoView/navigation";
@@ -137,6 +137,17 @@ export const useMemoActionHandlers = ({ memo, parentPage, onEdit, setDeleteDialo
     setDeleteDialogOpen(true);
   }, [setDeleteDialogOpen]);
 
+  const handleSetMemoColor = useCallback(
+    async (color: MemoColor) => {
+      try {
+        await updateMemo({ update: { name: memo.name, color }, updateMask: ["color"] });
+      } catch (error: unknown) {
+        handleError(error, toast.error, { context: "Color memo", fallbackMessage: "An error occurred" });
+      }
+    },
+    [memo.name, updateMemo],
+  );
+
   const confirmDeleteMemo = useCallback(async () => {
     try {
       await deleteMemo(memo.name);
@@ -166,5 +177,6 @@ export const useMemoActionHandlers = ({ memo, parentPage, onEdit, setDeleteDialo
     handleUncheckAllTaskListItemsClick,
     handleDeleteMemoClick,
     confirmDeleteMemo,
+    handleSetMemoColor,
   };
 };

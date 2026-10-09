@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file api/common.proto.
  */
 export const file_api_common: GenFile = /*@__PURE__*/
-  fileDesc("ChBhcGkvY29tbW9uLnByb3RvEgltZW1vcy5hcGkiKgoJUGFnZVRva2VuEg0KBWxpbWl0GAEgASgFEg4KBm9mZnNldBgCIAEoBSo4CgVTdGF0ZRIVChFTVEFURV9VTlNQRUNJRklFRBAAEgoKBk5PUk1BTBABEgwKCEFSQ0hJVkVEEAIqOQoJRGlyZWN0aW9uEhkKFURJUkVDVElPTl9VTlNQRUNJRklFRBAAEgcKA0FTQxABEggKBERFU0MQAkKKAQoNY29tLm1lbW9zLmFwaUILQ29tbW9uUHJvdG9QAVonZ2l0aHViLmNvbS91c2VtZW1vcy9tZW1vcy9wcm90by9nZW4vYXBpogIDTUFYqgIJTWVtb3MuQXBpygIJTWVtb3NcQXBp4gIVTWVtb3NcQXBpXEdQQk1ldGFkYXRh6gIKTWVtb3M6OkFwaWIGcHJvdG8z");
+  fileDesc("ChBhcGkvY29tbW9uLnByb3RvEgltZW1vcy5hcGkiQgoJUGFnZVRva2VuEg0KBWxpbWl0GAEgASgFEg4KBm9mZnNldBgCIAEoBRIWCg5vcmRlcl9yZXZpc2lvbhgDIAEoBCo4CgVTdGF0ZRIVChFTVEFURV9VTlNQRUNJRklFRBAAEgoKBk5PUk1BTBABEgwKCEFSQ0hJVkVEEAIqOQoJRGlyZWN0aW9uEhkKFURJUkVDVElPTl9VTlNQRUNJRklFRBAAEgcKA0FTQxABEggKBERFU0MQAkKKAQoNY29tLm1lbW9zLmFwaUILQ29tbW9uUHJvdG9QAVonZ2l0aHViLmNvbS91c2VtZW1vcy9tZW1vcy9wcm90by9nZW4vYXBpogIDTUFYqgIJTWVtb3MuQXBpygIJTWVtb3NcQXBp4gIVTWVtb3NcQXBpXEdQQk1ldGFkYXRh6gIKTWVtb3M6OkFwaWIGcHJvdG8z");
 
 /**
  * PageToken is the internal content of an opaque page token. The service
@@ -32,6 +32,13 @@ export type PageToken = Message<"memos.api.PageToken"> & {
    * @generated from field: int32 offset = 2;
    */
   offset: number;
+
+  /**
+   * The owner's order revision for manual memo pagination. Zero for legacy sorting.
+   *
+   * @generated from field: uint64 order_revision = 3;
+   */
+  orderRevision: bigint;
 };
 
 /**
