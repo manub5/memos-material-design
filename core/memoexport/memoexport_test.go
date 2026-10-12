@@ -18,6 +18,25 @@ import (
 
 var updateGolden = flag.Bool("update", false, "rewrite the golden archives under testdata")
 
+func TestMemoColorValidation(t *testing.T) {
+	for _, color := range []string{"", "MEMO_COLOR_SAGE", "MEMO_COLOR_ROSE", "arbitrary-css"} {
+		t.Run(color, func(t *testing.T) {
+			memo := *newGoldenFixture().memos[0]
+			memo.ContentPath = "memos/Xy7LmN01.md"
+			memo.Color = color
+			warnings, err := validateMemo(&memo)
+			require.NoError(t, err)
+			if color == "arbitrary-css" {
+				require.Empty(t, memo.Color)
+				require.Len(t, warnings, 1)
+			} else {
+				require.Equal(t, color, memo.Color)
+				require.Empty(t, warnings)
+			}
+		})
+	}
+}
+
 // goldenFixture is the content of every golden archive. Changing it changes
 // the golden file, so bump it deliberately.
 type goldenFixture struct {

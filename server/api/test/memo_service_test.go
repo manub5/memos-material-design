@@ -33,7 +33,7 @@ func TestMemoColorPersistsAcrossCreateAndUpdate(t *testing.T) {
 	require.Equal(t, apipb.MemoColor_MEMO_COLOR_SAGE, memo.Color)
 
 	updated, err := ts.Service.UpdateMemo(ownerCtx, &apipb.UpdateMemoRequest{
-		Memo: &apipb.Memo{Name: memo.Name, Color: apipb.MemoColor_MEMO_COLOR_ROSE},
+		Memo:       &apipb.Memo{Name: memo.Name, Color: apipb.MemoColor_MEMO_COLOR_ROSE},
 		UpdateMask: &fieldmaskpb.FieldMask{Paths: []string{"color"}},
 	})
 	require.NoError(t, err)
@@ -61,13 +61,13 @@ func TestMemoColorRejectsUnknownValuesAndAllowsReset(t *testing.T) {
 	}})
 	require.NoError(t, err)
 	_, err = ts.Service.UpdateMemo(ownerCtx, &apipb.UpdateMemoRequest{
-		Memo: &apipb.Memo{Name: memo.Name, Color: apipb.MemoColor(999)},
+		Memo:       &apipb.Memo{Name: memo.Name, Color: apipb.MemoColor(999)},
 		UpdateMask: &fieldmaskpb.FieldMask{Paths: []string{"color"}},
 	})
 	require.Equal(t, codes.InvalidArgument, status.Code(err))
 
 	reset, err := ts.Service.UpdateMemo(ownerCtx, &apipb.UpdateMemoRequest{
-		Memo: &apipb.Memo{Name: memo.Name},
+		Memo:       &apipb.Memo{Name: memo.Name},
 		UpdateMask: &fieldmaskpb.FieldMask{Paths: []string{"color"}},
 	})
 	require.NoError(t, err)
@@ -128,6 +128,43 @@ func TestListMemosManualPageTokenInvalidatedByMove(t *testing.T) {
 	require.NoError(t, err)
 	_, err = ts.Service.ListMemos(ownerCtx, &apipb.ListMemosRequest{OrderBy: "manual", PageToken: page.NextPageToken})
 	require.Equal(t, codes.Aborted, status.Code(err))
+}
+
+func TestListMemosManualPageTokenInvalidatedByMembershipChange(t *testing.T) {
+	for _, mutation := range []string{"create", "delete", "archive", "restore"} {
+		t.Run(mutation, func(t *testing.T) {
+			ctx := context.Background()
+			ts := NewTestService(t)
+			defer ts.Cleanup()
+			owner, err := ts.CreateRegularUser(ctx, "membership-owner")
+			require.NoError(t, err)
+			ownerCtx := ts.CreateUserContext(ctx, owner.ID)
+			var target *store.Memo
+			for i := range 3 {
+				target, err = ts.Store.CreateMemo(ctx, &store.Memo{UID: fmt.Sprintf("membership-%d", i), CreatorID: owner.ID, Visibility: store.Private})
+				require.NoError(t, err)
+			}
+			if mutation == "restore" {
+				require.NoError(t, ts.Store.UpdateMemo(ctx, &store.UpdateMemo{ID: target.ID, RowStatus: new(store.Archived)}))
+			}
+			page, err := ts.Service.ListMemos(ownerCtx, &apipb.ListMemosRequest{OrderBy: "manual", PageSize: 1})
+			require.NoError(t, err)
+			require.NotEmpty(t, page.NextPageToken)
+			switch mutation {
+			case "create":
+				_, err = ts.Store.CreateMemo(ctx, &store.Memo{UID: "membership-new", CreatorID: owner.ID, Visibility: store.Private})
+			case "delete":
+				err = ts.Store.DeleteMemo(ctx, &store.DeleteMemo{ID: target.ID})
+			case "archive":
+				err = ts.Store.UpdateMemo(ctx, &store.UpdateMemo{ID: target.ID, RowStatus: new(store.Archived)})
+			case "restore":
+				err = ts.Store.UpdateMemo(ctx, &store.UpdateMemo{ID: target.ID, RowStatus: new(store.Normal)})
+			}
+			require.NoError(t, err)
+			_, err = ts.Service.ListMemos(ownerCtx, &apipb.ListMemosRequest{OrderBy: "manual", PageToken: page.NextPageToken})
+			require.Equal(t, codes.Aborted, status.Code(err))
+		})
+	}
 }
 
 func TestAnonymousMemoAccessFollowsInstanceAccessSetting(t *testing.T) {
@@ -304,7 +341,7 @@ func TestDanglingPlacementDoesNotOverrideNonSpaceAudience(t *testing.T) {
 	require.NoError(t, err)
 	memoID := parseMemoIDFromNameForTest(t, ts, memo.Name)
 	_, err = ts.Store.GetDriver().GetDB().ExecContext(ctx,
-		fmt.Sprintf("UPDATE memo SET space_id = 2147483000 WHERE id = %d", memoID))
+		"UPDATE memo SET space_id = 2147483000 WHERE id = ?", memoID)
 	require.NoError(t, err)
 
 	got, err := ts.Service.GetMemo(ctx, &apipb.GetMemoRequest{Name: memo.Name})
@@ -357,7 +394,7 @@ func TestMemoReadFailsClosedForMissingCreatorBeforePaginationAndChildren(t *test
 	})
 	require.NoError(t, err)
 	_, err = ts.Store.GetDriver().GetDB().ExecContext(ctx,
-		fmt.Sprintf("UPDATE memo SET creator_id = 2147483000 WHERE id = %d", corruptID))
+		"UPDATE memo SET creator_id = 2147483000 WHERE id = ?", corruptID)
 	require.NoError(t, err)
 
 	_, err = ts.Service.GetMemo(ctx, &apipb.GetMemoRequest{Name: corrupt.Name})

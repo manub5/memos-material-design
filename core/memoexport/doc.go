@@ -6,4 +6,7 @@
 // opinion about how records map onto a Memos instance; transports call the
 // Writer with data they have already loaded and interpret the records a
 // Reader returns.
+//
+// Optional palette color metadata is carried as a validated enum name. Legacy
+// records without color remain neutral; unknown colors are normalized to neutral.
 package memoexport

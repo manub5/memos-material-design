@@ -47,7 +47,7 @@ func TestFreshInstall(t *testing.T) {
 	// Verify migration completed successfully
 	currentSchemaVersion, err := ts.GetCurrentSchemaVersion()
 	require.NoError(t, err)
-	require.Equal(t, "26.10.1", currentSchemaVersion, "fresh install should use the current schema")
+	require.Equal(t, "26.10.2", currentSchemaVersion, "fresh install should use the current schema")
 
 	// Verify we can read instance settings (basic sanity check)
 	instanceSetting, err := ts.GetInstanceBasicSetting(ctx)

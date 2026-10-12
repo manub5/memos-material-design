@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"math"
 	"slices"
 )
 
@@ -61,8 +62,8 @@ func MoveMemoInTransaction(ctx context.Context, tx *sql.Tx, dialect MemoOrderDia
 	if err := tx.QueryRowContext(ctx, "SELECT revision FROM memo_order_revision WHERE creator_id = "+actorParam+lockSuffix, move.ActorID).Scan(&revision); err != nil {
 		return err
 	}
-	query := "SELECT m.id, m.uid, o." + rankColumn + " FROM memo m JOIN memo_order o ON o.memo_id = m.id " +
-		"WHERE m.creator_id = " + actorParam + " AND m.row_status = 'NORMAL' " +
+	query := "SELECT m.id, m.uid, o." + rankColumn + ", m.row_status FROM memo m JOIN memo_order o ON o.memo_id = m.id " +
+		"WHERE m.creator_id = " + actorParam + " " +
 		"AND NOT EXISTS (SELECT 1 FROM memo_relation r WHERE r.memo_id = m.id AND r.type = 'COMMENT') " +
 		"ORDER BY o." + rankColumn + " ASC, m.id DESC"
 	rows, err := tx.QueryContext(ctx, query, move.ActorID)
@@ -70,13 +71,18 @@ func MoveMemoInTransaction(ctx context.Context, tx *sql.Tx, dialect MemoOrderDia
 		return err
 	}
 	var items []orderedMemo
+	var allItems []orderedMemo
 	for rows.Next() {
 		var item orderedMemo
-		if err := rows.Scan(&item.id, &item.uid, &item.rank); err != nil {
+		var state RowStatus
+		if err := rows.Scan(&item.id, &item.uid, &item.rank, &state); err != nil {
 			_ = rows.Close()
 			return err
 		}
-		items = append(items, item)
+		allItems = append(allItems, item)
+		if state == Normal {
+			items = append(items, item)
+		}
 	}
 	if err := rows.Err(); err != nil {
 		_ = rows.Close()
@@ -120,8 +126,10 @@ func MoveMemoInTransaction(ctx context.Context, tx *sql.Tx, dialect MemoOrderDia
 	needsRebalance := false
 	switch {
 	case to == 0:
+		needsRebalance = items[1].rank < math.MinInt64+1024
 		rank = items[1].rank - 1024
 	case to == len(items)-1:
+		needsRebalance = items[to-1].rank > math.MaxInt64-1024
 		rank = items[to-1].rank + 1024
 	default:
 		prev, next := items[to-1].rank, items[to+1].rank
@@ -129,12 +137,33 @@ func MoveMemoInTransaction(ctx context.Context, tx *sql.Tx, dialect MemoOrderDia
 		rank = prev + (next-prev)/2
 	}
 	if needsRebalance {
-		for i, candidate := range items {
-			if _, err := tx.ExecContext(ctx, updateQuery, int64(i+1)*1024, candidate.id); err != nil {
+		// Renumber the full collection in its current sequence, including archives.
+		// Only the explicitly moved memo may change position relative to hidden rows.
+		ranks := make(map[int32]int64, len(allItems))
+		var nextRank int64
+		for _, candidate := range allItems {
+			if candidate.id == item.id {
+				continue
+			}
+			nextRank += 1024
+			ranks[candidate.id] = nextRank
+			if _, err := tx.ExecContext(ctx, updateQuery, nextRank, candidate.id); err != nil {
 				return err
 			}
 		}
-	} else if _, err := tx.ExecContext(ctx, updateQuery, rank, item.id); err != nil {
+		for i := range items {
+			items[i].rank = ranks[items[i].id]
+		}
+		switch {
+		case to == 0:
+			rank = items[1].rank - 1024
+		case to == len(items)-1:
+			rank = items[to-1].rank + 1024
+		default:
+			rank = items[to-1].rank + (items[to+1].rank-items[to-1].rank)/2
+		}
+	}
+	if _, err := tx.ExecContext(ctx, updateQuery, rank, item.id); err != nil {
 		return err
 	}
 	if _, err := tx.ExecContext(ctx, "UPDATE memo_order_revision SET revision = revision + 1 WHERE creator_id = "+actorParam, move.ActorID); err != nil {
@@ -151,4 +180,24 @@ func (s *Store) MoveMemo(ctx context.Context, move *MoveMemo) error {
 // MemoOrderRevision returns the owner's order revision for pagination consistency.
 func (s *Store) MemoOrderRevision(ctx context.Context, creatorID int32) (uint64, error) {
 	return s.driver.MemoOrderRevision(ctx, creatorID)
+}
+
+// ListMemosAtOrderRevision discards a manual page if its collection changed during
+// the read. Every membership and rank mutation updates the revision atomically.
+func (s *Store) ListMemosAtOrderRevision(ctx context.Context, find *FindMemo, revision uint64) ([]*Memo, error) {
+	if find.CreatorID == nil || !find.OrderByManual {
+		return nil, ErrMemoOrderPermission
+	}
+	memos, err := s.ListMemos(ctx, find)
+	if err != nil {
+		return nil, err
+	}
+	current, err := s.MemoOrderRevision(ctx, *find.CreatorID)
+	if err != nil {
+		return nil, err
+	}
+	if current != revision {
+		return nil, ErrMemoOrderConflict
+	}
+	return memos, nil
 }

@@ -155,8 +155,16 @@ func (s *APIService) ListMemos(ctx context.Context, request *apipb.ListMemosRequ
 	limitPlusOne := limit + 1
 	memoFind.Limit = &limitPlusOne
 	memoFind.Offset = &offset
-	memos, err := s.Store.ListMemos(ctx, memoFind)
+	var memos []*store.Memo
+	if memoFind.OrderByManual {
+		memos, err = s.Store.ListMemosAtOrderRevision(ctx, memoFind, orderRevision)
+	} else {
+		memos, err = s.Store.ListMemos(ctx, memoFind)
+	}
 	if err != nil {
+		if errors.Is(err, store.ErrMemoOrderConflict) {
+			return nil, status.Errorf(codes.Aborted, "memo order changed; reload the first page")
+		}
 		return nil, status.Errorf(codes.Internal, "failed to list memos: %v", err)
 	}
 
