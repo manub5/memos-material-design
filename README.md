@@ -1,5 +1,3 @@
-> ✨ Featured sponsor: [CodeRabbit — Industry-leading AI code reviews](https://coderabbit.link/usememos).
-
 # Memos
 
 <img src="./web/public/logo.webp" alt="" width="96" align="right">
