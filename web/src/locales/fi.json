@@ -183,6 +183,8 @@
     "no-language-feedback": "Eikö kieltä löydy? Lähetä palautetta"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Ehdotukset",
     "add-your-comment-here": "Lisää kommenttisi tähän...",
     "any-thoughts": "Mitään ajatuksia...",
@@ -264,6 +266,10 @@
     "disconnected": "Live-päivitykset eivät ole saatavilla"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Kiinnitetty",
     "click-to-show-sensitive-content": "Napsauta näyttääksesi arkaluontoisen sisällön",
     "comment": {

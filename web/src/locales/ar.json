@@ -145,6 +145,8 @@
     "no-language-feedback": "لم يتم العثور على اللغة؟ إرسال ردود الفعل"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "اقتراحات",
     "add-your-comment-here": "أضف تعليقك هنا...",
     "any-thoughts": "أية أفكار...",
@@ -221,6 +223,10 @@
     "space-invitation-open": "مساحة متاحة"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "مثبّت",
     "click-to-show-sensitive-content": "انقر لإظهار المحتوى الحساس",
     "comment": {

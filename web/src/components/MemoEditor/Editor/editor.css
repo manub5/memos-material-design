@@ -35,6 +35,46 @@
   & .cm-placeholder {
     color: var(--muted-foreground);
   }
+  & .cm-list-reorder-gutter {
+    background: transparent;
+    border: none;
+    color: var(--muted-foreground);
+  }
+  & .cm-list-reorder-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 1.5rem;
+    padding: 0;
+    border: none;
+    border-radius: calc(var(--radius) - 4px);
+    background: transparent;
+    color: inherit;
+    cursor: grab;
+    user-select: none;
+  }
+  & .cm-list-reorder-handle:hover,
+  & .cm-list-reorder-handle:focus-visible,
+  & .cm-list-reorder-handle[aria-pressed="true"] {
+    background: var(--accent);
+    color: var(--accent-foreground);
+    outline: 1px solid var(--primary);
+  }
+  & .cm-list-reorder-handle[aria-pressed="true"] {
+    cursor: grabbing;
+  }
+  & .cm-list-reorder-target {
+    position: absolute;
+    inset-inline: 2rem 0;
+    z-index: 5;
+    border-top: 2px solid var(--primary);
+    color: var(--primary);
+    background: var(--background);
+    font-size: 0.6875rem;
+    line-height: 1rem;
+    pointer-events: none;
+  }
 
   & .cm-dropCursor {
     border-left-color: var(--foreground);

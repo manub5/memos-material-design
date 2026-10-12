@@ -145,6 +145,8 @@
     "no-language-feedback": "Nie znaleziono języka? Prześlij opinię"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Sugestie",
     "add-your-comment-here": "Dodaj swój komentarz tutaj...",
     "any-thoughts": "Jakieś przemyślenia...",
@@ -226,6 +228,10 @@
     "disconnected": "Aktualizacje na żywo niedostępne"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Przypięto",
     "click-to-show-sensitive-content": "Kliknij, aby pokazać treści NSFW",
     "comment": {

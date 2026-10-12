@@ -145,6 +145,8 @@
     "no-language-feedback": "زبان پیدا نشد؟ ارسال بازخورد"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "پیشنهادها",
     "add-your-comment-here": "نظر خود را اینجا اضافه کنید...",
     "any-thoughts": "فکر شما...",
@@ -221,6 +223,10 @@
     "space-invitation-open": "فضای باز"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "سنجاق‌شده",
     "click-to-show-sensitive-content": "برای نمایش محتوای حساس کلیک کنید",
     "comment": {

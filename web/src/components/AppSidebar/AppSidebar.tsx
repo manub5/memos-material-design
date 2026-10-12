@@ -32,6 +32,7 @@ import { type AttachmentSection, type InboxFilter, useAppSidebar } from "@/conte
 import { useAuth } from "@/contexts/AuthContext";
 import { useGlobalMemoEditor } from "@/contexts/GlobalMemoEditorContext";
 import { useInstance } from "@/contexts/InstanceContext";
+import { useMemoFilterContext } from "@/contexts/MemoFilterContext";
 import { useSpaceContext } from "@/contexts/SpaceContext";
 import { useAttachmentLibraryStats } from "@/hooks/useAttachmentLibrary";
 import useCurrentUser from "@/hooks/useCurrentUser";
@@ -343,6 +344,8 @@ const GlobalNavigation = () => {
   const location = useLocation();
   const currentUser = useCurrentUser();
   const { setQuickFindOpen } = useAppSidebar();
+  const { creatorUsername, selectedSpaceName } = useSpaceContext();
+  const { filters, memoView } = useMemoFilterContext();
   const routeKind = getSidebarRouteKind(location.pathname);
   const timelineActive = routeKind === "home" || routeKind === "explore";
   const destinations = NAV_DESTINATIONS.filter((destination) => currentUser || !destination.signedInOnly);
@@ -362,7 +365,19 @@ const GlobalNavigation = () => {
             expanded={expandedKind === "timeline"}
             className={cn(timelineActive && "rounded-e-none pe-0")}
           />
-          {timelineActive && <MemoDisplaySettingMenu anchor={timelineRef} />}
+          {timelineActive && (
+            <MemoDisplaySettingMenu
+              anchor={timelineRef}
+              manualOrder={
+                routeKind === "home" &&
+                Boolean(currentUser) &&
+                creatorUsername === currentUser?.username &&
+                !selectedSpaceName &&
+                filters.length === 0 &&
+                !memoView
+              }
+            />
+          )}
         </div>
         {destinations.map((destination) => (
           <NavPill

@@ -145,6 +145,8 @@
     "no-language-feedback": "Lingua non trovata? Invia feedback"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Suggerimenti",
     "add-your-comment-here": "Aggiungi qui il tuo commento...",
     "any-thoughts": "Qualsiasi cosa pensi...",
@@ -226,6 +228,10 @@
     "disconnected": "Aggiornamenti in tempo reale non disponibili"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Fissato",
     "click-to-show-sensitive-content": "Clicca per mostrare contenuti sensibili",
     "comment": {

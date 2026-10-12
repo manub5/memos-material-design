@@ -3,6 +3,7 @@ import { placeholder as cmPlaceholder, EditorView } from "@codemirror/view";
 import { forwardRef, useCallback, useImperativeHandle, useLayoutEffect, useMemo, useRef } from "react";
 import { useTagCounts } from "@/hooks/useUserQueries";
 import { cn } from "@/lib/utils";
+import { useTranslate } from "@/utils/i18n";
 import type { EditorController } from "../types/editorController";
 import { createController } from "./controller";
 import "./editor.css";
@@ -35,6 +36,9 @@ const Editor = forwardRef(function Editor(props: EditorProps, ref: React.Forward
     isFocusMode,
   } = props;
   const hostRef = useRef<HTMLDivElement>(null);
+  const t = useTranslate();
+  const translateRef = useRef(t);
+  translateRef.current = t;
   const viewRef = useRef<EditorView | null>(null);
   const controllerRef = useRef<EditorController | null>(null);
   const applyingExternalContentRef = useRef(false);
@@ -85,6 +89,10 @@ const Editor = forwardRef(function Editor(props: EditorProps, ref: React.Forward
           onUpdate: () => listenersRef.current.forEach((l) => l()),
           onSubmit: () => onSubmitRef.current(),
           getTags: () => tagsRef.current,
+          listReorderLabels: {
+            handle: () => translateRef.current("editor.reorder-list-item"),
+            target: () => translateRef.current("editor.reorder-list-drop-target"),
+          },
         }),
       }),
       parent: hostRef.current,

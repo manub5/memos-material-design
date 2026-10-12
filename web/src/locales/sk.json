@@ -183,6 +183,8 @@
     "no-language-feedback": "Jazyk sa nenašiel? Odoslať spätnú väzbu"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Návrhy",
     "add-your-comment-here": "Tu pridajte svoj komentár...",
     "any-thoughts": "Akékoľvek myšlienky...",
@@ -264,6 +266,10 @@
     "disconnected": "Aktuálne aktualizácie nie sú k dispozícii"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Pripnuté",
     "click-to-show-sensitive-content": "Kliknutím zobrazíte citlivý obsah",
     "comment": {

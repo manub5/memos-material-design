@@ -94,4 +94,17 @@ describe("MemoDisplaySettingMenu", () => {
 
     expect(screen.getByRole("radio", { name: "2 columns" })).toBeChecked();
   });
+
+  it("hides chronological controls for a manual timeline while preserving layout options", () => {
+    render(
+      <ViewProvider>
+        <MemoDisplaySettingMenu manualOrder />
+      </ViewProvider>,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Timeline · View options" }));
+    expect(screen.queryByRole("combobox", { name: "Order by" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("combobox", { name: "Direction" })).not.toBeInTheDocument();
+    expect(screen.getByRole("radiogroup", { name: "Layout" })).toBeInTheDocument();
+    expect(screen.getByRole("switch", { name: "Link preview" })).toBeInTheDocument();
+  });
 });

@@ -8,6 +8,7 @@ import type { EditorCommandId } from "@/components/MemoEditor/formatting/command
 import { memoMarkdownExtensions } from "@/utils/memo-markdown-extension";
 import { headingDecorations } from "./headingDecorations";
 import { liftListItem, sinkListItem } from "./listIndent";
+import { type ListReorderLabels, listReorderExtension } from "./listReorderExtension";
 import { tagAutocomplete } from "./tagAutocomplete";
 import { tagMentionDecorations } from "./tagMentionDecorations";
 import { memoEditorTheme } from "./theme";
@@ -65,6 +66,7 @@ export interface EditorExtensionsOptions {
   onUpdate: () => void;
   onSubmit: () => void;
   getTags: () => string[];
+  listReorderLabels?: ListReorderLabels;
 }
 
 export const placeholderCompartment = new Compartment();
@@ -87,6 +89,7 @@ export function buildEditorExtensions({
   onUpdate,
   onSubmit,
   getTags,
+  listReorderLabels,
 }: EditorExtensionsOptions): Extension[] {
   // Submitting must outrank defaultKeymap's own Mod-Enter (insertBlankLine): the save
   // shortcut ends the memo, it must not also edit the document. Meta and Ctrl are bound
@@ -109,6 +112,7 @@ export function buildEditorExtensions({
     // Indent with spaces (markdown), matching the 2-space bullet nesting.
     indentUnit.of("  "),
     markdown({ extensions: memoMarkdownExtensions }),
+    ...(listReorderLabels ? [listReorderExtension(listReorderLabels)] : []),
     ...memoEditorTheme,
     EditorView.lineWrapping,
     // CodeMirror disables native text assistance because it is primarily a code

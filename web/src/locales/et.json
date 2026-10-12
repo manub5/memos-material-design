@@ -183,6 +183,8 @@
     "no-language-feedback": "Keelt ei leitud? Esitage tagasisidet"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Soovitused",
     "add-your-comment-here": "Lisa oma kommentaar siia...",
     "any-thoughts": "Mingid mõtted...",
@@ -264,6 +266,10 @@
     "disconnected": "Reaalajas värskendused pole saadaval"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Kinnitatud",
     "click-to-show-sensitive-content": "Tundliku sisu kuvamiseks klõpsake",
     "comment": {

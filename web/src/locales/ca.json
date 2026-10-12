@@ -145,6 +145,8 @@
     "no-language-feedback": "No s'ha trobat l'idioma? Envieu comentaris"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Suggeriments",
     "add-your-comment-here": "Afegeix el teu comentari aquí...",
     "any-thoughts": "Alguna idea...",
@@ -226,6 +228,10 @@
     "disconnected": "Actualitzacions en directe no disponibles"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Fixat",
     "click-to-show-sensitive-content": "Fes clic per mostrar contingut sensible",
     "comment": {

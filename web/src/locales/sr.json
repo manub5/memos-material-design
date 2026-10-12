@@ -183,6 +183,8 @@
     "no-language-feedback": "Језик није пронађен? Пошаљите повратне информације"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Предлози",
     "add-your-comment-here": "Додајте свој коментар овде...",
     "any-thoughts": "Било каква размишљања...",
@@ -264,6 +266,10 @@
     "disconnected": "Ажурирања уживо нису доступна"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Закачено",
     "click-to-show-sensitive-content": "Кликните да бисте приказали осетљив садржај",
     "comment": {

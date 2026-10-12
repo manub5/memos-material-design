@@ -193,7 +193,16 @@ const MemoView = forwardRef<MemoViewHandle, MemoViewProps>((props, ref) => {
       tabIndex={readonly ? -1 : 0}
     >
       {showPinned && memoData.pinned && <MemoPinnedMark />}
-      <MemoHeader timeDisplay={timeDisplay} showCreator={showCreator} showVisibility={showVisibility} showSpace={showSpace} />
+      {currentUser?.name === memoData.creator && props.dragHandle ? (
+        <div className="flex items-center gap-1">
+          <div className="min-w-0 flex-1">
+            <MemoHeader timeDisplay={timeDisplay} showCreator={showCreator} showVisibility={showVisibility} showSpace={showSpace} />
+          </div>
+          {props.dragHandle}
+        </div>
+      ) : (
+        <MemoHeader timeDisplay={timeDisplay} showCreator={showCreator} showVisibility={showVisibility} showSpace={showSpace} />
+      )}
 
       <MemoBody compact={compact} />
 

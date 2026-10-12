@@ -24,6 +24,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLinkItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -116,16 +118,18 @@ const MemoActionMenu = (props: MemoActionMenuProps) => {
         {t("memo.color")}
       </DropdownMenuSubTrigger>
       <DropdownMenuSubContent>
-        <DropdownMenuItem onClick={() => void handleSetMemoColor(MemoColor.UNSPECIFIED)}>
-          {memo.color === MemoColor.UNSPECIFIED ? "• " : ""}
-          {t("memo.color-neutral")}
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        {MEMO_COLOR_CHOICES.map((choice) => (
-          <DropdownMenuItem key={choice.name} onClick={() => void handleSetMemoColor(choice.color)}>
-            {t(choice.label)}
-          </DropdownMenuItem>
-        ))}
+        <DropdownMenuRadioGroup
+          value={String(MEMO_COLOR_CHOICES.some((choice) => choice.color === memo.color) ? memo.color : MemoColor.UNSPECIFIED)}
+          onValueChange={(value) => void handleSetMemoColor(Number(value) as MemoColor)}
+        >
+          <DropdownMenuRadioItem value={String(MemoColor.UNSPECIFIED)}>{t("memo.color-neutral")}</DropdownMenuRadioItem>
+          <DropdownMenuSeparator />
+          {MEMO_COLOR_CHOICES.map((choice) => (
+            <DropdownMenuRadioItem key={choice.name} value={String(choice.color)}>
+              {t(choice.label)}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
       </DropdownMenuSubContent>
     </DropdownMenuSub>
   );

@@ -10,6 +10,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { memoServiceClient } from "@/connect";
 import { attachmentKeys } from "@/hooks/useAttachmentQueries";
 import { userKeys } from "@/hooks/useUserQueries";
@@ -177,7 +178,8 @@ export function useMemos(request: Partial<ListMemosRequest> = {}) {
 }
 
 export function useInfiniteMemos(request: Partial<ListMemosRequest> = {}, options?: { enabled?: boolean }) {
-  return useInfiniteQuery({
+  const queryClient = useQueryClient();
+  const query = useInfiniteQuery({
     queryKey: memoKeys.list(request),
     queryFn: async ({ pageParam, signal }) => {
       const response = await memoServiceClient.listMemos(
@@ -195,6 +197,18 @@ export function useInfiniteMemos(request: Partial<ListMemosRequest> = {}, option
     gcTime: 1000 * 60 * 5,
     enabled: options?.enabled ?? true,
   });
+  useEffect(() => {
+    if (
+      request.orderBy === "manual" &&
+      query.isFetchNextPageError &&
+      query.error instanceof ConnectError &&
+      query.error.code === Code.Aborted
+    ) {
+      // A new revision invalidates every loaded page, not just the rejected token.
+      void queryClient.resetQueries({ queryKey: memoKeys.list(request), exact: true });
+    }
+  }, [queryClient, request, query.isFetchNextPageError, query.error]);
+  return query;
 }
 
 export function useMemo(name: string, options?: { enabled?: boolean }) {
@@ -308,6 +322,25 @@ export function useUpdateMemo() {
       queryClient.invalidateQueries({ queryKey: userKeys.stats() });
       // Placement changes move linked attachments between scoped libraries.
       queryClient.invalidateQueries({ queryKey: attachmentKeys.lists() });
+    },
+  });
+}
+
+// useMoveMemo persists the owner's manual placement of one top-level memo. Anchors
+// (`before`/`after`) name the immediate neighbors at the destination; an empty pair
+// moves the memo to the start. Lists are refreshed afterward, so a rejected move
+// (for example a stale-neighbor Aborted conflict) falls back to the server order.
+export function useMoveMemo() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ name, before, after }: { name: string; before?: string; after?: string }) => {
+      return await memoServiceClient.moveMemo({ name, before, after });
+    },
+    onSettled: () => {
+      // Success applies the authoritative server order; a failure (conflict, stale
+      // neighbors) drops the optimistic order and reloads the real one.
+      queryClient.invalidateQueries({ queryKey: memoKeys.lists() });
     },
   });
 }

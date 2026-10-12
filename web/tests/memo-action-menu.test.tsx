@@ -4,7 +4,7 @@ import { MemoryRouter, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import MemoActionMenu from "@/components/MemoActionMenu";
 import { State } from "@/types/proto/api/common_pb";
-import { type Memo, MemoSchema } from "@/types/proto/api/memo_service_pb";
+import { type Memo, MemoColor, MemoSchema } from "@/types/proto/api/memo_service_pb";
 
 const handlers = vi.hoisted(() => ({
   isInMemoDetailPage: false,
@@ -82,6 +82,17 @@ describe("MemoActionMenu", () => {
     await openMenu(memoOf({ pinned: true }));
     fireEvent.click(screen.getByRole("menuitem", { name: "common.unpin" }));
     expect(handlers.handleTogglePinMemoBtnClick).toHaveBeenCalledOnce();
+  });
+
+  it("exposes the selected palette color and saves a different radio choice", async () => {
+    await openMenu(memoOf({ color: MemoColor.SAGE }));
+    fireEvent.click(screen.getByRole("menuitem", { name: "memo.color" }));
+    const selected = await screen.findByRole("menuitemradio", { name: "memo.colors.sage" });
+    expect(selected).toHaveAttribute("aria-checked", "true");
+    const rose = screen.getByRole("menuitemradio", { name: "memo.colors.rose" });
+    expect(rose).toHaveAttribute("aria-checked", "false");
+    fireEvent.click(rose);
+    expect(handlers.handleSetMemoColor).toHaveBeenCalledWith(MemoColor.ROSE);
   });
 
   it("opens the memo through a real link that keeps the origin page", async () => {

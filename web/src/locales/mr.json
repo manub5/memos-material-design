@@ -145,6 +145,8 @@
     "no-language-feedback": "भाषा सापडली नाही? अभिप्राय सबमिट करा"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "सूचना",
     "add-your-comment-here": "तुमची टिप्पणी येथे जो़डा",
     "any-thoughts": "आपले विचार...",
@@ -221,6 +223,10 @@
     "space-invitation-open": "स्पेस उघडा"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "पिन केलेले",
     "click-to-show-sensitive-content": "संवेदनशील सामग्री दाखवण्यासाठी क्लिक करा",
     "comment": {

@@ -145,6 +145,8 @@
     "no-language-feedback": "Språket hittades inte? Skicka feedback"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Förslag",
     "add-your-comment-here": "Lägg till din kommentar här...",
     "any-thoughts": "Några tankar...",
@@ -226,6 +228,10 @@
     "disconnected": "Liveuppdateringar är inte tillgängliga"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Fäst",
     "click-to-show-sensitive-content": "Klicka för att visa känsligt innehåll (NSFW)",
     "comment": {

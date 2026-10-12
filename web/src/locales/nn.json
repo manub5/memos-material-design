@@ -221,6 +221,8 @@
     "deploy-link": "Set opp din eigen Memos-instans"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "add-your-comment-here": "Skriv kommentaren din her...",
     "any-thoughts": "Noko på hjartet...",
     "audio-recorder": {
@@ -323,6 +325,10 @@
     "zoom-out": "Zoom ut"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "back-to": "Attende til {{source}}",
     "click-to-show-sensitive-content": "Trykk for å vise sensitivt innhald",
     "comment": {

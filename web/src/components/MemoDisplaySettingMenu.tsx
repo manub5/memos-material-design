@@ -13,6 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 interface Props {
   anchor?: RefObject<HTMLElement | null>;
+  manualOrder?: boolean;
 }
 
 interface SettingRowProps {
@@ -41,7 +42,7 @@ const SettingRow = ({ label, description, children }: SettingRowProps) => (
   </div>
 );
 
-function MemoDisplaySettingsContent() {
+function MemoDisplaySettingsContent({ manualOrder = false }: Pick<Props, "manualOrder">) {
   const t = useTranslate();
   const direction = useDirection();
   const {
@@ -129,44 +130,46 @@ function MemoDisplaySettingsContent() {
         </div>
       </section>
 
-      <section className="space-y-1 border-t border-border/60 px-2.5 py-2">
-        <SettingRow label={t("memo.order-by")}>
-          <Select
-            value={timeBasis}
-            items={timeBasisOptions}
-            onValueChange={(value) => setTimeBasis(value === "update_time" ? "update_time" : "create_time")}
-          >
-            <SelectTrigger size="xs" className="w-32" aria-label={t("memo.order-by")}>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {timeBasisOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </SettingRow>
-        <SettingRow label={t("memo.direction")}>
-          <Select
-            value={orderByTimeAsc ? "asc" : "desc"}
-            items={sortOrderOptions}
-            onValueChange={(value) => setOrderByTimeAsc(value === "asc")}
-          >
-            <SelectTrigger size="xs" className="w-32" aria-label={t("memo.direction")}>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {sortOrderOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </SettingRow>
-      </section>
+      {!manualOrder && (
+        <section className="space-y-1 border-t border-border/60 px-2.5 py-2">
+          <SettingRow label={t("memo.order-by")}>
+            <Select
+              value={timeBasis}
+              items={timeBasisOptions}
+              onValueChange={(value) => setTimeBasis(value === "update_time" ? "update_time" : "create_time")}
+            >
+              <SelectTrigger size="xs" className="w-32" aria-label={t("memo.order-by")}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {timeBasisOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </SettingRow>
+          <SettingRow label={t("memo.direction")}>
+            <Select
+              value={orderByTimeAsc ? "asc" : "desc"}
+              items={sortOrderOptions}
+              onValueChange={(value) => setOrderByTimeAsc(value === "asc")}
+            >
+              <SelectTrigger size="xs" className="w-32" aria-label={t("memo.direction")}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {sortOrderOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </SettingRow>
+        </section>
+      )}
 
       <section className="space-y-1 border-t border-border/60 px-2.5 py-2">
         <SettingRow label={t("memo.compact-mode")} description={compactLocked ? t("memo.grid-compact-hint") : undefined}>
@@ -185,7 +188,7 @@ function MemoDisplaySettingsContent() {
   );
 }
 
-function MemoDisplaySettingMenu({ anchor }: Props) {
+function MemoDisplaySettingMenu({ anchor, manualOrder }: Props) {
   const t = useTranslate();
   const label = `${t("common.timeline")} · ${t("memo.view-options")}`;
 
@@ -208,7 +211,7 @@ function MemoDisplaySettingMenu({ anchor }: Props) {
         <TooltipContent side="bottom">{label}</TooltipContent>
       </Tooltip>
       <PopoverContent anchor={anchor} align="start" sideOffset={6} aria-label={label} className="w-56 p-0">
-        <MemoDisplaySettingsContent />
+        <MemoDisplaySettingsContent manualOrder={manualOrder} />
       </PopoverContent>
     </Popover>
   );
