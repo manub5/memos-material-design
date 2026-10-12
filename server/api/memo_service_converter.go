@@ -46,6 +46,7 @@ func (s *APIService) convertMemoFromStoreWithCreators(ctx context.Context, memo 
 		Content:    memo.Content,
 		Visibility: convertVisibilityFromStore(memo.Visibility),
 		Pinned:     memo.Pinned,
+		Color:      convertMemoColorFromStore(memo.Color),
 	}
 	// An assigned memo needs a read context for its placement projection; an
 	// unassigned memo needs none.

@@ -145,6 +145,8 @@
     "no-language-feedback": "Idioma não encontrado? Enviar comentários"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Sugestões",
     "add-your-comment-here": "Adicione o seu comentário aqui...",
     "any-thoughts": "Alguma ideia…",
@@ -226,6 +228,10 @@
     "disconnected": "Atualizações ao vivo indisponíveis"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Afixado",
     "click-to-show-sensitive-content": "Clique para mostrar conteúdo NSFW",
     "comment": {
@@ -234,6 +240,16 @@
     },
     "copy-content": "Copiar Conteúdo",
     "copy-link": "Copiar link",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} em {{date}}",
     "delete-confirm": "Tem a certeza de que quer eliminar este memo?",
     "delete-confirm-description": "Esta ação é irreversível. Os anexos, links e referências também serão removidos.",

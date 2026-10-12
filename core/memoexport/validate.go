@@ -117,6 +117,12 @@ func validateMemo(memo *Memo) ([]Warning, error) {
 	}
 
 	var warnings []Warning
+	switch memo.Color {
+	case "", "MEMO_COLOR_LAVENDER", "MEMO_COLOR_SAGE", "MEMO_COLOR_SKY", "MEMO_COLOR_AMBER", "MEMO_COLOR_ROSE", "MEMO_COLOR_PEACH":
+	default:
+		warnings = append(warnings, Warning{UID: memo.UID, Message: fmt.Sprintf("unknown color %q, using neutral", memo.Color)})
+		memo.Color = ""
+	}
 	if _, ok := knownStates[memo.State]; !ok {
 		warnings = append(warnings, Warning{UID: memo.UID, Message: fmt.Sprintf("unknown state %q, using NORMAL", memo.State)})
 		memo.State = "NORMAL"

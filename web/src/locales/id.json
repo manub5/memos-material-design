@@ -145,6 +145,8 @@
     "no-language-feedback": "Bahasa tidak ditemukan? Kirim masukan"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Saran",
     "add-your-comment-here": "Tambahkan komentar Anda di sini...",
     "any-thoughts": "Punya pemikiran...",
@@ -221,6 +223,10 @@
     "space-invitation-open": "Ruang terbuka"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Disematkan",
     "click-to-show-sensitive-content": "Klik untuk menampilkan konten NSFW",
     "comment": {
@@ -229,6 +235,16 @@
     },
     "copy-content": "Salin Konten",
     "copy-link": "Salin Tautan",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} di {{date}}",
     "delete-confirm": "Apakah Anda yakin ingin menghapus memo ini? TINDAKAN INI TIDAK DAPAT DIBATALKAN",
     "delete-confirm-description": "Tindakan ini tidak dapat dibatalkan. Lampiran, tautan, dan referensi juga akan dihapus.",

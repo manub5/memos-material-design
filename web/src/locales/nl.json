@@ -145,6 +145,8 @@
     "no-language-feedback": "Taal niet gevonden? Geef feedback"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Suggesties",
     "add-your-comment-here": "Voeg hier je opmerking toe…",
     "any-thoughts": "Enkele gedachten…",
@@ -226,6 +228,10 @@
     "disconnected": "Live-updates niet beschikbaar"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Vastgezet",
     "click-to-show-sensitive-content": "Klik om NSFW-inhoud te tonen",
     "comment": {
@@ -234,6 +240,16 @@
     },
     "copy-content": "Inhoud kopiëren",
     "copy-link": "Kopieer link",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} op {{date}}",
     "delete-confirm": "Weet je zeker dat je deze memo wilt verwijderen? DEZE ACTIE IS NIET TERUG TE DRAAIEN",
     "delete-confirm-description": "Deze actie is onomkeerelijk. Bijlagen, links en referenties worden ook verwijderd.",

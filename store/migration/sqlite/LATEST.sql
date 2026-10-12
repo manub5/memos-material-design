@@ -62,12 +62,38 @@ CREATE TABLE memo (
   content TEXT NOT NULL DEFAULT '',
   visibility TEXT NOT NULL CHECK (visibility IN ('PUBLIC', 'PROTECTED', 'PRIVATE', 'SPACE')) DEFAULT 'PRIVATE',
   pinned INTEGER NOT NULL CHECK (pinned IN (0, 1)) DEFAULT 0,
+  color TEXT NOT NULL DEFAULT '',
   payload TEXT NOT NULL DEFAULT '{}',
   space_id INTEGER DEFAULT NULL
 );
 
 CREATE INDEX idx_memo_creator_id ON memo(creator_id);
 CREATE INDEX idx_memo_space_id ON memo(space_id, row_status, created_ts DESC, id DESC);
+
+CREATE TABLE memo_order (
+  memo_id INTEGER PRIMARY KEY REFERENCES memo(id) ON DELETE CASCADE,
+  creator_id INTEGER NOT NULL,
+  rank BIGINT NOT NULL
+);
+CREATE INDEX idx_memo_order_creator_rank ON memo_order(creator_id, rank, memo_id);
+
+CREATE TABLE memo_order_revision (
+  creator_id INTEGER PRIMARY KEY,
+  revision BIGINT NOT NULL DEFAULT 0
+);
+
+CREATE TRIGGER memo_revision_insert AFTER INSERT ON memo BEGIN
+  INSERT INTO memo_order_revision (creator_id, revision) VALUES (NEW.creator_id, 1)
+  ON CONFLICT (creator_id) DO UPDATE SET revision = revision + 1;
+END;
+CREATE TRIGGER memo_revision_update AFTER UPDATE ON memo BEGIN
+  INSERT INTO memo_order_revision (creator_id, revision) VALUES (NEW.creator_id, 1)
+  ON CONFLICT (creator_id) DO UPDATE SET revision = revision + 1;
+END;
+CREATE TRIGGER memo_revision_delete AFTER DELETE ON memo BEGIN
+  INSERT INTO memo_order_revision (creator_id, revision) VALUES (OLD.creator_id, 1)
+  ON CONFLICT (creator_id) DO UPDATE SET revision = revision + 1;
+END;
 
 -- memo_relation
 CREATE TABLE memo_relation (

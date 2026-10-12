@@ -183,6 +183,8 @@
     "no-language-feedback": "Δεν βρέθηκε η γλώσσα; Υποβολή σχολίων"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Προτάσεις",
     "add-your-comment-here": "Προσθέστε το σχόλιό σας εδώ...",
     "any-thoughts": "Οποιαδήποτε σκέψη...",
@@ -264,6 +266,10 @@
     "disconnected": "Οι ζωντανές ενημερώσεις δεν είναι διαθέσιμες"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Καρφιτσωμένο",
     "click-to-show-sensitive-content": "Κάντε κλικ για εμφάνιση ευαίσθητου περιεχομένου",
     "comment": {
@@ -272,6 +278,16 @@
     },
     "copy-content": "Αντιγραφή περιεχομένου",
     "copy-link": "Αντιγραφή συνδέσμου",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} σε {{date}}",
     "count-memos-updated-in-date": "{{count}} Το {{memos}} ενημερώθηκε στο {{date}}",
     "delete-confirm": "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτό το σημείωμα;",

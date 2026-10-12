@@ -176,6 +176,8 @@
     "no-language-feedback": "未找到语言？ 提交反馈"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "建议",
     "add-your-comment-here": "请输入您的评论...",
     "any-thoughts": "此刻的想法...",
@@ -252,6 +254,10 @@
     "space-invitation-open": "打开空间"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "已置顶",
     "back-to": "返回{{source}}",
     "click-to-show-sensitive-content": "点击显示敏感内容",
@@ -261,6 +267,16 @@
     },
     "copy-content": "复制内容",
     "copy-link": "复制链接",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{date}} 有 {{count}} 条 {{memos}}",
     "delete-confirm": "您确定要删除此条备忘录吗？",
     "delete-confirm-description": "此操作是不可逆的，附件、链接和引用也会被删除。",

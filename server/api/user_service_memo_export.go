@@ -174,6 +174,7 @@ func (s *APIService) buildMemoExportRecord(ctx context.Context, writer *memoexpo
 		State:      string(memo.RowStatus),
 		Visibility: memo.Visibility.String(),
 		Pinned:     memo.Pinned,
+		Color:      memo.Color,
 		Tags:       memo.Payload.GetTags(),
 	}
 	if location := memo.Payload.GetLocation(); location != nil {

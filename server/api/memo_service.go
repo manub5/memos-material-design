@@ -112,6 +112,12 @@ func (s *APIService) ListMemos(ctx context.Context, request *apipb.ListMemosRequ
 		if err := s.parseMemoOrderBy(request.OrderBy, memoFind); err != nil {
 			return nil, status.Errorf(codes.InvalidArgument, "invalid order_by: %v", err)
 		}
+		if memoFind.OrderByManual {
+			if currentUser == nil || request.State == apipb.State_ARCHIVED {
+				return nil, status.Errorf(codes.InvalidArgument, "manual ordering requires an authenticated active timeline")
+			}
+			memoFind.CreatorID = &currentUser.ID
+		}
 	} else {
 		// Default ordering by create_time desc.
 		memoFind.OrderByTimeAsc = false
@@ -125,10 +131,20 @@ func (s *APIService) ListMemos(ctx context.Context, request *apipb.ListMemosRequ
 	}
 
 	var limit, offset int
+	var orderRevision uint64
+	if memoFind.OrderByManual {
+		orderRevision, err = s.Store.MemoOrderRevision(ctx, currentUser.ID)
+		if err != nil {
+			return nil, status.Errorf(codes.Internal, "failed to read memo order revision")
+		}
+	}
 	if request.PageToken != "" {
 		var pageToken apipb.PageToken
 		if err := unmarshalPageToken(request.PageToken, &pageToken); err != nil {
 			return nil, status.Errorf(codes.InvalidArgument, "invalid page token: %v", err)
+		}
+		if memoFind.OrderByManual && pageToken.OrderRevision != orderRevision {
+			return nil, status.Errorf(codes.Aborted, "memo order changed; reload the first page")
 		}
 		limit = normalizePageSize(pageToken.Limit)
 		offset = max(int(pageToken.Offset), 0)
@@ -139,8 +155,16 @@ func (s *APIService) ListMemos(ctx context.Context, request *apipb.ListMemosRequ
 	limitPlusOne := limit + 1
 	memoFind.Limit = &limitPlusOne
 	memoFind.Offset = &offset
-	memos, err := s.Store.ListMemos(ctx, memoFind)
+	var memos []*store.Memo
+	if memoFind.OrderByManual {
+		memos, err = s.Store.ListMemosAtOrderRevision(ctx, memoFind, orderRevision)
+	} else {
+		memos, err = s.Store.ListMemos(ctx, memoFind)
+	}
 	if err != nil {
+		if errors.Is(err, store.ErrMemoOrderConflict) {
+			return nil, status.Errorf(codes.Aborted, "memo order changed; reload the first page")
+		}
 		return nil, status.Errorf(codes.Internal, "failed to list memos: %v", err)
 	}
 
@@ -148,7 +172,11 @@ func (s *APIService) ListMemos(ctx context.Context, request *apipb.ListMemosRequ
 	nextPageToken := ""
 	if len(memos) == limitPlusOne {
 		memos = memos[:limit]
-		nextPageToken, err = getPageToken(limit, offset+limit)
+		if memoFind.OrderByManual {
+			nextPageToken, err = marshalPageToken(&apipb.PageToken{Limit: int32(limit), Offset: int32(offset + limit), OrderRevision: orderRevision})
+		} else {
+			nextPageToken, err = getPageToken(limit, offset+limit)
+		}
 		if err != nil {
 			return nil, status.Errorf(codes.Internal, "failed to get next page token, error: %v", err)
 		}
@@ -397,6 +425,12 @@ func (s *APIService) UpdateMemo(ctx context.Context, request *apipb.UpdateMemoRe
 			update.Payload = nextMemo.Payload
 		} else if path == "pinned" {
 			update.Pinned = &request.Memo.Pinned
+		} else if path == "color" {
+			color, err := validateMemoColor(request.Memo.Color)
+			if err != nil {
+				return nil, err
+			}
+			update.Color = &color
 		} else if path == "state" {
 			rowStatus := convertStateToStore(request.Memo.State)
 			update.RowStatus = &rowStatus

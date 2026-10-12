@@ -61,11 +61,35 @@ CREATE TABLE `memo` (
   `content` TEXT NOT NULL,
   `visibility` VARCHAR(256) NOT NULL DEFAULT 'PRIVATE',
   `pinned` BOOLEAN NOT NULL DEFAULT FALSE,
+  `color` VARCHAR(32) NOT NULL DEFAULT '',
   `payload` JSON NOT NULL,
   `space_id` INT DEFAULT NULL
 );
 
 CREATE INDEX `idx_memo_space_id` ON `memo`(`space_id`, `row_status`, `created_ts`, `id`);
+
+CREATE TABLE `memo_order` (
+  `memo_id` INT NOT NULL PRIMARY KEY,
+  `creator_id` INT NOT NULL,
+  `rank` BIGINT NOT NULL,
+  CONSTRAINT `fk_memo_order_memo` FOREIGN KEY (`memo_id`) REFERENCES `memo`(`id`) ON DELETE CASCADE,
+  INDEX `idx_memo_order_creator_rank` (`creator_id`, `rank`, `memo_id`)
+);
+
+CREATE TABLE `memo_order_revision` (
+  `creator_id` INT NOT NULL PRIMARY KEY,
+  `revision` BIGINT NOT NULL DEFAULT 0
+);
+
+CREATE TRIGGER memo_revision_insert AFTER INSERT ON memo FOR EACH ROW
+  INSERT INTO memo_order_revision (creator_id, revision) VALUES (NEW.creator_id, 1)
+  ON DUPLICATE KEY UPDATE revision = revision + 1;
+CREATE TRIGGER memo_revision_update AFTER UPDATE ON memo FOR EACH ROW
+  INSERT INTO memo_order_revision (creator_id, revision) VALUES (NEW.creator_id, 1)
+  ON DUPLICATE KEY UPDATE revision = revision + 1;
+CREATE TRIGGER memo_revision_delete AFTER DELETE ON memo FOR EACH ROW
+  INSERT INTO memo_order_revision (creator_id, revision) VALUES (OLD.creator_id, 1)
+  ON DUPLICATE KEY UPDATE revision = revision + 1;
 
 -- memo_relation
 CREATE TABLE `memo_relation` (

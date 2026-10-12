@@ -132,7 +132,9 @@ type PageToken struct {
 	// The page size used for the next page.
 	Limit int32 `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
 	// The number of items to skip before the next page.
-	Offset        int32 `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
+	Offset int32 `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
+	// The owner's order revision for manual memo pagination. Zero for legacy sorting.
+	OrderRevision uint64 `protobuf:"varint,3,opt,name=order_revision,json=orderRevision,proto3" json:"order_revision,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -181,14 +183,22 @@ func (x *PageToken) GetOffset() int32 {
 	return 0
 }
 
+func (x *PageToken) GetOrderRevision() uint64 {
+	if x != nil {
+		return x.OrderRevision
+	}
+	return 0
+}
+
 var File_api_common_proto protoreflect.FileDescriptor
 
 const file_api_common_proto_rawDesc = "" +
 	"\n" +
-	"\x10api/common.proto\x12\tmemos.api\"9\n" +
+	"\x10api/common.proto\x12\tmemos.api\"`\n" +
 	"\tPageToken\x12\x14\n" +
 	"\x05limit\x18\x01 \x01(\x05R\x05limit\x12\x16\n" +
-	"\x06offset\x18\x02 \x01(\x05R\x06offset*8\n" +
+	"\x06offset\x18\x02 \x01(\x05R\x06offset\x12%\n" +
+	"\x0eorder_revision\x18\x03 \x01(\x04R\rorderRevision*8\n" +
 	"\x05State\x12\x15\n" +
 	"\x11STATE_UNSPECIFIED\x10\x00\x12\n" +
 	"\n" +

@@ -68,6 +68,7 @@ func buildArchiveFixture(t *testing.T, ts *TestService, username string) *archiv
 			Content:     "# Whiteboard\n\nSee the photo. No trailing newline",
 			Visibility:  apipb.Visibility_PRIVATE,
 			Pinned:      true,
+			Color:       apipb.MemoColor_MEMO_COLOR_SAGE,
 			CreateTime:  timestamppb.New(mustTime(t, "2026-03-02T14:05:11Z")),
 			UpdateTime:  timestamppb.New(mustTime(t, "2026-03-02T14:20:47Z")),
 			Location:    &apipb.Location{Placeholder: "Office", Latitude: 52.52, Longitude: 13.405},
@@ -184,6 +185,7 @@ func TestWriteMemoExport(t *testing.T) {
 	require.Equal(t, "NORMAL", parent.State)
 	require.Equal(t, "PRIVATE", parent.Visibility)
 	require.True(t, parent.Pinned)
+	require.Equal(t, "MEMO_COLOR_SAGE", parent.Color)
 	require.Equal(t, &memoexport.Location{Placeholder: "Office", Latitude: 52.52, Longitude: 13.405}, parent.Location)
 	require.Equal(t, []memoexport.Relation{{Type: "REFERENCE", Memo: "referenced1"}}, parent.Relations)
 	require.Empty(t, parent.Parent)
@@ -261,6 +263,7 @@ func TestImportMemoExportIntoAnotherAccount(t *testing.T) {
 	parent := byContent["# Whiteboard\n\nSee the photo. No trailing newline"]
 	require.NotNil(t, parent)
 	require.True(t, parent.Pinned)
+	require.Equal(t, "MEMO_COLOR_SAGE", parent.Color)
 	require.Equal(t, store.Private, parent.Visibility)
 	require.Equal(t, mustTime(t, "2026-03-02T14:05:11Z").Unix(), parent.CreatedTs)
 	require.Equal(t, mustTime(t, "2026-03-02T14:20:47Z").Unix(), parent.UpdatedTs)
@@ -365,8 +368,8 @@ func TestImportMemoExportConflictPolicies(t *testing.T) {
 	t.Run("replace updates in place", func(t *testing.T) {
 		// Change the memo on the instance, then bring the archive back.
 		_, err := ts.Service.UpdateMemo(fixture.userCtx, &apipb.UpdateMemoRequest{
-			Memo:       &apipb.Memo{Name: fixture.parent.Name, Content: "edited after export", Pinned: false},
-			UpdateMask: &fieldmaskpb.FieldMask{Paths: []string{"content", "pinned"}},
+			Memo:       &apipb.Memo{Name: fixture.parent.Name, Content: "edited after export", Pinned: false, Color: apipb.MemoColor_MEMO_COLOR_ROSE},
+			UpdateMask: &fieldmaskpb.FieldMask{Paths: []string{"content", "pinned", "color"}},
 		})
 		require.NoError(t, err)
 
@@ -381,6 +384,7 @@ func TestImportMemoExportConflictPolicies(t *testing.T) {
 		require.NoError(t, err)
 		require.Equal(t, "# Whiteboard\n\nSee the photo. No trailing newline", restored.Content)
 		require.True(t, restored.Pinned)
+		require.Equal(t, "MEMO_COLOR_SAGE", restored.Color)
 		require.Equal(t, mustTime(t, "2026-03-02T14:20:47Z").Unix(), restored.UpdatedTs)
 		attachments, err := ts.Store.ListAttachments(ctx, &store.FindAttachment{MemoID: &restored.ID})
 		require.NoError(t, err)

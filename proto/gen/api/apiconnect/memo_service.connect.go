@@ -42,6 +42,8 @@ const (
 	MemoServiceCreateMemoProcedure = "/memos.api.MemoService/CreateMemo"
 	// MemoServiceUpdateMemoProcedure is the fully-qualified name of the MemoService's UpdateMemo RPC.
 	MemoServiceUpdateMemoProcedure = "/memos.api.MemoService/UpdateMemo"
+	// MemoServiceMoveMemoProcedure is the fully-qualified name of the MemoService's MoveMemo RPC.
+	MemoServiceMoveMemoProcedure = "/memos.api.MemoService/MoveMemo"
 	// MemoServiceDeleteMemoProcedure is the fully-qualified name of the MemoService's DeleteMemo RPC.
 	MemoServiceDeleteMemoProcedure = "/memos.api.MemoService/DeleteMemo"
 	// MemoServiceListMemoAttachmentsProcedure is the fully-qualified name of the MemoService's
@@ -105,6 +107,9 @@ type MemoServiceClient interface {
 	// UpdateMemo updates the memo fields listed in update_mask. Requires the memo
 	// creator or an instance administrator.
 	UpdateMemo(context.Context, *connect.Request[api.UpdateMemoRequest]) (*connect.Response[api.Memo], error)
+	// MoveMemo changes the caller's ordering of one of their top-level memos.
+	// Requires authentication and ownership of the memo and any specified neighbors.
+	MoveMemo(context.Context, *connect.Request[api.MoveMemoRequest]) (*connect.Response[api.MoveMemoResponse], error)
 	// DeleteMemo deletes the named memo and its comment subtree, including nested
 	// replies and their owned resources. It removes incident relations for all
 	// deleted memos. Requires the memo creator or an instance administrator.
@@ -194,6 +199,12 @@ func NewMemoServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			httpClient,
 			baseURL+MemoServiceUpdateMemoProcedure,
 			connect.WithSchema(memoServiceMethods.ByName("UpdateMemo")),
+			connect.WithClientOptions(opts...),
+		),
+		moveMemo: connect.NewClient[api.MoveMemoRequest, api.MoveMemoResponse](
+			httpClient,
+			baseURL+MemoServiceMoveMemoProcedure,
+			connect.WithSchema(memoServiceMethods.ByName("MoveMemo")),
 			connect.WithClientOptions(opts...),
 		),
 		deleteMemo: connect.NewClient[api.DeleteMemoRequest, emptypb.Empty](
@@ -301,6 +312,7 @@ type memoServiceClient struct {
 	getMemo              *connect.Client[api.GetMemoRequest, api.Memo]
 	createMemo           *connect.Client[api.CreateMemoRequest, api.Memo]
 	updateMemo           *connect.Client[api.UpdateMemoRequest, api.Memo]
+	moveMemo             *connect.Client[api.MoveMemoRequest, api.MoveMemoResponse]
 	deleteMemo           *connect.Client[api.DeleteMemoRequest, emptypb.Empty]
 	listMemoAttachments  *connect.Client[api.ListMemoAttachmentsRequest, api.ListMemoAttachmentsResponse]
 	setMemoAttachments   *connect.Client[api.SetMemoAttachmentsRequest, emptypb.Empty]
@@ -337,6 +349,11 @@ func (c *memoServiceClient) CreateMemo(ctx context.Context, req *connect.Request
 // UpdateMemo calls memos.api.MemoService.UpdateMemo.
 func (c *memoServiceClient) UpdateMemo(ctx context.Context, req *connect.Request[api.UpdateMemoRequest]) (*connect.Response[api.Memo], error) {
 	return c.updateMemo.CallUnary(ctx, req)
+}
+
+// MoveMemo calls memos.api.MemoService.MoveMemo.
+func (c *memoServiceClient) MoveMemo(ctx context.Context, req *connect.Request[api.MoveMemoRequest]) (*connect.Response[api.MoveMemoResponse], error) {
+	return c.moveMemo.CallUnary(ctx, req)
 }
 
 // DeleteMemo calls memos.api.MemoService.DeleteMemo.
@@ -433,6 +450,9 @@ type MemoServiceHandler interface {
 	// UpdateMemo updates the memo fields listed in update_mask. Requires the memo
 	// creator or an instance administrator.
 	UpdateMemo(context.Context, *connect.Request[api.UpdateMemoRequest]) (*connect.Response[api.Memo], error)
+	// MoveMemo changes the caller's ordering of one of their top-level memos.
+	// Requires authentication and ownership of the memo and any specified neighbors.
+	MoveMemo(context.Context, *connect.Request[api.MoveMemoRequest]) (*connect.Response[api.MoveMemoResponse], error)
 	// DeleteMemo deletes the named memo and its comment subtree, including nested
 	// replies and their owned resources. It removes incident relations for all
 	// deleted memos. Requires the memo creator or an instance administrator.
@@ -518,6 +538,12 @@ func NewMemoServiceHandler(svc MemoServiceHandler, opts ...connect.HandlerOption
 		MemoServiceUpdateMemoProcedure,
 		svc.UpdateMemo,
 		connect.WithSchema(memoServiceMethods.ByName("UpdateMemo")),
+		connect.WithHandlerOptions(opts...),
+	)
+	memoServiceMoveMemoHandler := connect.NewUnaryHandler(
+		MemoServiceMoveMemoProcedure,
+		svc.MoveMemo,
+		connect.WithSchema(memoServiceMethods.ByName("MoveMemo")),
 		connect.WithHandlerOptions(opts...),
 	)
 	memoServiceDeleteMemoHandler := connect.NewUnaryHandler(
@@ -626,6 +652,8 @@ func NewMemoServiceHandler(svc MemoServiceHandler, opts ...connect.HandlerOption
 			memoServiceCreateMemoHandler.ServeHTTP(w, r)
 		case MemoServiceUpdateMemoProcedure:
 			memoServiceUpdateMemoHandler.ServeHTTP(w, r)
+		case MemoServiceMoveMemoProcedure:
+			memoServiceMoveMemoHandler.ServeHTTP(w, r)
 		case MemoServiceDeleteMemoProcedure:
 			memoServiceDeleteMemoHandler.ServeHTTP(w, r)
 		case MemoServiceListMemoAttachmentsProcedure:
@@ -681,6 +709,10 @@ func (UnimplementedMemoServiceHandler) CreateMemo(context.Context, *connect.Requ
 
 func (UnimplementedMemoServiceHandler) UpdateMemo(context.Context, *connect.Request[api.UpdateMemoRequest]) (*connect.Response[api.Memo], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("memos.api.MemoService.UpdateMemo is not implemented"))
+}
+
+func (UnimplementedMemoServiceHandler) MoveMemo(context.Context, *connect.Request[api.MoveMemoRequest]) (*connect.Response[api.MoveMemoResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("memos.api.MemoService.MoveMemo is not implemented"))
 }
 
 func (UnimplementedMemoServiceHandler) DeleteMemo(context.Context, *connect.Request[api.DeleteMemoRequest]) (*connect.Response[emptypb.Empty], error) {

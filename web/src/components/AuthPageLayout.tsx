@@ -61,7 +61,7 @@ const AuthPageLayout = ({ chip, title, subtitle, hideExplore, children }: Props)
   return (
     <div className="min-h-svh w-full flex flex-col items-center px-4 py-4 sm:py-8">
       <div className="w-full grow flex flex-col justify-center items-center">
-        <div className="w-90 max-w-full rounded-xl border border-border bg-card p-7 shadow-sm">
+        <div className="w-90 max-w-full rounded-2xl border border-border/60 bg-card p-7 shadow-sm">
           <div className="mb-6 flex items-center gap-2">
             <img className="h-6 w-auto rounded-full" src={generalSetting.customProfile?.logoUrl || "/logo.webp"} alt="" />
             <span className="text-sm font-semibold text-foreground">{generalSetting.customProfile?.title || "Memos"}</span>
@@ -71,7 +71,7 @@ const AuthPageLayout = ({ chip, title, subtitle, hideExplore, children }: Props)
           {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
           <div className="mt-6 w-full">{children}</div>
           {showExplore && (
-            <div className="-mx-7 -mb-7 mt-6 rounded-b-xl border-t border-border bg-background/60">
+            <div className="-mx-7 -mb-7 mt-6 rounded-b-2xl border-t border-border/60 bg-muted/40">
               <Link
                 to={ROUTES.EXPLORE}
                 className="group flex items-center justify-center gap-2 px-7 py-3 text-[13px] text-muted-foreground transition-colors hover:text-foreground"

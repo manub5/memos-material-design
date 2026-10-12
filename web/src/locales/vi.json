@@ -145,6 +145,8 @@
     "no-language-feedback": "Không tìm thấy ngôn ngữ? Gửi phản hồi"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Gợi ý",
     "add-your-comment-here": "Thêm bình luận của bạn tại đây...",
     "any-thoughts": "Có suy nghĩ gì...",
@@ -221,6 +223,10 @@
     "space-invitation-open": "Không gian trống"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Đã ghim",
     "click-to-show-sensitive-content": "Nhấp để hiện nội dung nhạy cảm",
     "comment": {
@@ -229,6 +235,16 @@
     },
     "copy-content": "Sao chép nội dung",
     "copy-link": "Sao chép liên kết",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} trong {{date}}",
     "delete-confirm": "Bạn có chắc chắn muốn xóa ghi chú này không? HÀNH ĐỘNG NÀY KHÔNG THỂ HOÀN TÁC",
     "delete-confirm-description": "Hành động này không thể hoàn tác. Tệp đính kèm, liên kết và tham chiếu cũng sẽ bị xóa.",

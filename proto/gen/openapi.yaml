@@ -712,7 +712,8 @@ paths:
                   description: |-
                     Optional. The order to sort results by, as a comma-separated list of
                      fields following AIP-132. Defaults to "create_time desc".
-                     Supported fields: pinned, create_time, update_time, name.
+                     Supported fields: pinned, create_time, update_time, name, manual.
+                     "manual" is limited to the authenticated caller's own top-level memos.
                      Example: "pinned desc, create_time desc" or "update_time asc".
                      Note: order_by uses create_time / update_time, while the filter
                      expression uses created_ts / updated_ts for the same timestamps.
@@ -913,7 +914,7 @@ paths:
                   description: |-
                     Required. The fields to update. Supported paths: content, visibility,
                      space, pinned, state, create_time, update_time, location, attachments,
-                     relations.
+                     relations, color.
                   schema:
                     type: string
                     format: field-mask
@@ -1370,6 +1371,40 @@ paths:
                 "200":
                     description: OK
                     content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/memos/{memo}:move:
+        post:
+            tags:
+                - MemoService
+            description: |-
+                MoveMemo changes the caller's ordering of one of their top-level memos.
+                 Requires authentication and ownership of the memo and any specified neighbors.
+            operationId: MemoService_MoveMemo
+            parameters:
+                - name: memo
+                  in: path
+                  description: The memo id.
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MoveMemoRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MoveMemoResponse'
                 default:
                     description: Default error response
                     content:
@@ -4574,6 +4609,18 @@ components:
                         Optional. The last update time. Defaults to the current time when unset on
                          creation.
                     format: date-time
+                color:
+                    enum:
+                        - MEMO_COLOR_UNSPECIFIED
+                        - MEMO_COLOR_LAVENDER
+                        - MEMO_COLOR_SAGE
+                        - MEMO_COLOR_SKY
+                        - MEMO_COLOR_AMBER
+                        - MEMO_COLOR_ROSE
+                        - MEMO_COLOR_PEACH
+                    type: string
+                    description: Optional. Theme-aware card color. UNSPECIFIED uses the neutral card surface.
+                    format: enum
             description: Memo is a Markdown note written by a user.
         MemoRelation:
             required:
@@ -4728,6 +4775,29 @@ components:
                     type: boolean
                     description: Whether the file embeds the motion video, as in an Android motion photo container.
             description: MotionMedia links the parts of a motion photo.
+        MoveMemoRequest:
+            required:
+                - name
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: Required. Memo to move, in the caller's own active timeline.
+                before:
+                    type: string
+                    description: Optional. The immediately preceding memo at the intended destination.
+                after:
+                    type: string
+                    description: Optional. The immediately following memo at the intended destination.
+            description: Request message for MemoService.MoveMemo.
+        MoveMemoResponse:
+            type: object
+            properties:
+                memo:
+                    allOf:
+                        - $ref: '#/components/schemas/Memo'
+                    description: The moved memo.
+            description: Response message for MemoService.MoveMemo.
         NotificationSetting_EmailSetting:
             type: object
             properties:

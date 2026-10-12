@@ -145,6 +145,8 @@
     "no-language-feedback": "Sprache nicht gefunden? Geben Sie Feedback ab"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Vorschläge",
     "add-your-comment-here": "Füge deinen Kommentar hinzu...",
     "any-thoughts": "Ein Gedanke...",
@@ -226,6 +228,10 @@
     "disconnected": "Live-Updates nicht verfügbar"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Angeheftet",
     "click-to-show-sensitive-content": "Klicken, um sensible Inhalte anzuzeigen",
     "comment": {
@@ -234,6 +240,16 @@
     },
     "copy-content": "Inhalt kopieren",
     "copy-link": "Link kopieren",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} in {{date}}",
     "delete-confirm": "Bist du sicher, dass du diese Notiz löschen möchtest?\n\nDIESE AKTION KANN NICHT RÜCKGÄNGIG GEMACHT WERDEN",
     "delete-confirm-description": "Dieser Vorgang ist nicht rückgängig zu machen. Anhänge, Links und Verknüpfungen werden ebenfalls gelöscht.",

@@ -19,12 +19,19 @@ const sidebar = vi.hoisted(() => ({ setQuickFindOpen: vi.fn() }));
 const filterContext = vi.hoisted(() => ({ filters: [{ factor: "celSearch", value: "pinned" }], removeFilter: vi.fn() }));
 const readiness = vi.hoisted(() => ({ userSettings: true }));
 const memoQuery = vi.hoisted(() => ({ request: undefined as Record<string, unknown> | undefined }));
+const newMemo = vi.hoisted(() => ({ newMemoName: null as string | null }));
+
+vi.mock("@/contexts/NewMemoContext", () => ({ useNewMemo: () => newMemo }));
 
 vi.mock("@/hooks/useMemoQueries", () => ({
+  useMoveMemo: () => ({ mutateAsync: vi.fn(), isPending: false }),
   useInfiniteMemos: (request: Record<string, unknown>) => {
     memoQuery.request = request;
     return {
-      data: { pages: [{ memos: feed.memos, nextPageToken: "" }] },
+      data:
+        feed.error && !feed.isFetchNextPageError && feed.memos.length === 0
+          ? undefined
+          : { pages: [{ memos: feed.memos, nextPageToken: "" }] },
       fetchNextPage: feed.fetchNextPage,
       hasNextPage: feed.hasNextPage,
       isFetchingNextPage: false,
@@ -69,15 +76,28 @@ const memo = { name: "memos/1", content: "hello", updateTime: undefined } as unk
 
 const renderList = (
   renderer: (memo: Memo, options: { compact: boolean }) => React.ReactElement = () => <div />,
-  options: { leading?: React.ReactNode } = {},
+  options: { leading?: React.ReactNode; orderBy?: string } = {},
 ) =>
   render(
     <QueryClientProvider client={new QueryClient()}>
-      <PagedMemoList renderer={renderer} renderLeading={options.leading ? () => options.leading : undefined} />
+      <PagedMemoList renderer={renderer} orderBy={options.orderBy} renderLeading={options.leading ? () => options.leading : undefined} />
     </QueryClientProvider>,
   );
 
 describe("<PagedMemoList>", () => {
+  it("does not automatically fetch a page after the list has unmounted", async () => {
+    vi.useFakeTimers();
+    try {
+      feed.memos = [memo];
+      feed.hasNextPage = true;
+      const rendered = renderList();
+      rendered.unmount();
+      await act(async () => vi.advanceTimersByTimeAsync(250));
+      expect(feed.fetchNextPage).not.toHaveBeenCalled();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
   beforeEach(() => {
     view.maxColumns = 1;
     view.compactMode = false;
@@ -93,6 +113,20 @@ describe("<PagedMemoList>", () => {
     filterContext.filters = [{ factor: "celSearch", value: "pinned" }];
     readiness.userSettings = true;
     memoQuery.request = undefined;
+    newMemo.newMemoName = null;
+  });
+
+  it.each([
+    ["manual", ["first", "new"]],
+    ["create_time desc", ["new", "first"]],
+  ] as const)("respects %s order after moving a newly created memo", (orderBy, expected) => {
+    newMemo.newMemoName = "memos/new";
+    feed.memos = [
+      { name: "memos/first", content: "first" },
+      { name: "memos/new", content: "new" },
+    ];
+    renderList((memo) => <article key={memo.name}>{memo.content}</article>, { orderBy });
+    expect(screen.getAllByRole("article").map((card) => card.textContent)).toEqual(expected);
   });
 
   it.each([1, 0] as const)("shows recoverable validation errors in layout %i instead of an empty state", (columns) => {

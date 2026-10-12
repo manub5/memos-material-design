@@ -26,7 +26,7 @@ const DialogOverlay = React.forwardRef<HTMLDivElement, DialogPrimitive.Backdrop.
 DialogOverlay.displayName = "DialogOverlay";
 
 const dialogContentVariants = cva(
-  "bg-background fixed top-[50%] left-[50%] z-overlay flex max-h-[calc(100vh-2rem)] translate-x-[-50%] translate-y-[-50%] flex-col rounded-lg border shadow-lg transition-[opacity,scale] duration-200 data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0 sm:max-h-[calc(100vh-3rem)] md:max-h-[calc(100vh-4rem)]",
+  "bg-popover text-popover-foreground fixed top-[50%] left-[50%] z-overlay flex max-h-[calc(100vh-2rem)] translate-x-[-50%] translate-y-[-50%] flex-col rounded-xl border border-border/70 shadow-float transition-[opacity,scale] duration-200 data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0 sm:max-h-[calc(100vh-3rem)] md:max-h-[calc(100vh-4rem)]",
   {
     variants: {
       size: {

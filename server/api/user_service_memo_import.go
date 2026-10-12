@@ -283,6 +283,7 @@ func (i *memoImporter) replaceMemo(record *memoexport.Memo, existing *store.Memo
 		Payload:    next.Payload,
 		Visibility: &next.Visibility,
 		Pinned:     &next.Pinned,
+		Color:      &next.Color,
 		RowStatus:  &next.RowStatus,
 		CreatedTs:  &next.CreatedTs,
 		UpdatedTs:  &next.UpdatedTs,
@@ -354,6 +355,7 @@ func (i *memoImporter) buildMemo(record *memoexport.Memo, uid string, content []
 		Content:    string(content),
 		Visibility: store.Visibility(record.Visibility),
 		Pinned:     record.Pinned,
+		Color:      record.Color,
 	}
 	if record.Space != nil {
 		spaceID, err := i.resolveSpace(record.Space)

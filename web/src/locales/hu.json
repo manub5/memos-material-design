@@ -145,6 +145,8 @@
     "no-language-feedback": "Nem található a nyelv? Visszajelzés küldése"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Javaslatok",
     "add-your-comment-here": "Írd ide a megjegyzésed...",
     "any-thoughts": "Bármi ami a fejedben jár...",
@@ -226,6 +228,10 @@
     "disconnected": "Élő frissítések nem érhetők el"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Rögzítve",
     "click-to-show-sensitive-content": "Kattints a kényes tartalom megjelenítéséhez",
     "comment": {
@@ -234,6 +240,16 @@
     },
     "copy-content": "Tartalom másolása",
     "copy-link": "Hivatkozás másolása",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} ezen a napon: {{date}}",
     "delete-confirm": "Biztosan törlöd ezt a jegyzetet? EZ A MŰVELET VÉGLEGES",
     "delete-confirm-description": "Ez a művelet visszafordíthatatlan. A mellékletek, hivatkozások és referenciák is törlődnek.",

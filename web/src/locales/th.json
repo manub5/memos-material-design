@@ -145,6 +145,8 @@
     "no-language-feedback": "ไม่พบภาษา? ส่งข้อเสนอแนะ"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "คำแนะนำ",
     "add-your-comment-here": "เพิ่มความคิดเห็นของคุณที่นี่...",
     "any-thoughts": "ความคิดใดๆ...",
@@ -221,6 +223,10 @@
     "space-invitation-open": "เปิดพื้นที่"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "ปักหมุดแล้ว",
     "click-to-show-sensitive-content": "คลิกเพื่อแสดงเนื้อหาไม่เหมาะสม (NSFW)",
     "comment": {
@@ -229,6 +235,16 @@
     },
     "copy-content": "คัดลอกเนื้อหา",
     "copy-link": "คัดลอกลิงก์",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} ใน {{date}}",
     "delete-confirm": "คุณแน่ใจหรือไม่ ว่าต้องการลบบันทึกนี้? การกระทำนี้ไม่สามารถย้อนกลับได้",
     "delete-confirm-description": "การดำเนินการนี้ไม่สามารถย้อนกลับได้ ไฟล์แนบ ลิงก์ และการอ้างอิงจะถูกลบออกด้วย",

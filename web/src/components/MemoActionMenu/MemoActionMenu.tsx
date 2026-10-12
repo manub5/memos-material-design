@@ -6,6 +6,7 @@ import {
   BookmarkPlusIcon,
   CheckCheckIcon,
   CopyIcon,
+  DropletIcon,
   Edit3Icon,
   FileTextIcon,
   LinkIcon,
@@ -16,12 +17,15 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import { MEMO_COLOR_CHOICES } from "@/components/MemoView/memoPalette";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLinkItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -29,6 +33,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { State } from "@/types/proto/api/common_pb";
+import { MemoColor } from "@/types/proto/api/memo_service_pb";
 import { useTranslate } from "@/utils/i18n";
 import { createMemoNavigationState } from "../MemoView/navigation";
 import { useMemoActionHandlers } from "./hooks";
@@ -66,6 +71,7 @@ const MemoActionMenu = (props: MemoActionMenuProps) => {
     handleUncheckAllTaskListItemsClick,
     handleDeleteMemoClick,
     confirmDeleteMemo,
+    handleSetMemoColor,
   } = useMemoActionHandlers({
     memo,
     parentPage,
@@ -101,6 +107,29 @@ const MemoActionMenu = (props: MemoActionMenuProps) => {
           <FileTextIcon />
           {t("memo.copy-content")}
         </DropdownMenuItem>
+      </DropdownMenuSubContent>
+    </DropdownMenuSub>
+  );
+
+  const colorSubmenu = (
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger>
+        <DropletIcon />
+        {t("memo.color")}
+      </DropdownMenuSubTrigger>
+      <DropdownMenuSubContent>
+        <DropdownMenuRadioGroup
+          value={String(MEMO_COLOR_CHOICES.some((choice) => choice.color === memo.color) ? memo.color : MemoColor.UNSPECIFIED)}
+          onValueChange={(value) => void handleSetMemoColor(Number(value) as MemoColor)}
+        >
+          <DropdownMenuRadioItem value={String(MemoColor.UNSPECIFIED)}>{t("memo.color-neutral")}</DropdownMenuRadioItem>
+          <DropdownMenuSeparator />
+          {MEMO_COLOR_CHOICES.map((choice) => (
+            <DropdownMenuRadioItem key={choice.name} value={String(choice.color)}>
+              {t(choice.label)}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
       </DropdownMenuSubContent>
     </DropdownMenuSub>
   );
@@ -154,6 +183,8 @@ const MemoActionMenu = (props: MemoActionMenuProps) => {
               {t("memo.task-actions.uncheck-all")}
             </DropdownMenuItem>
           ))}
+        {/* A comment has no place of its own to color; only a top-level memo does. */}
+        {!isComment && colorSubmenu}
 
         {/* A comment has no place of its own to pin or archive; it lives under its parent. */}
         {!isComment && (

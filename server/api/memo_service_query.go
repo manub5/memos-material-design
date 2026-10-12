@@ -12,6 +12,10 @@ func (*APIService) parseMemoOrderBy(orderBy string, memoFind *store.FindMemo) er
 	if strings.TrimSpace(orderBy) == "" {
 		return errors.New("empty order_by")
 	}
+	if strings.TrimSpace(orderBy) == "manual" {
+		memoFind.OrderByManual = true
+		return nil
+	}
 
 	// Split by comma to support multiple sort fields per AIP-132.
 	fields := strings.Split(orderBy, ",")

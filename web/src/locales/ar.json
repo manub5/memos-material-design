@@ -145,6 +145,8 @@
     "no-language-feedback": "لم يتم العثور على اللغة؟ إرسال ردود الفعل"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "اقتراحات",
     "add-your-comment-here": "أضف تعليقك هنا...",
     "any-thoughts": "أية أفكار...",
@@ -221,6 +223,10 @@
     "space-invitation-open": "مساحة متاحة"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "مثبّت",
     "click-to-show-sensitive-content": "انقر لإظهار المحتوى الحساس",
     "comment": {
@@ -229,6 +235,16 @@
     },
     "copy-content": "نسخ المحتوى",
     "copy-link": "نسخ الرابط",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} في {{date}}",
     "delete-confirm": "هل أنت متأكد أنك تريد حذف هذه المذكرة؟\n\nهذا الإجراء لا رجعة فيه",
     "delete-confirm-description": "هذا الإجراء لا رجعة فيه. ستتم إزالة المرفقات والروابط والمراجع أيضًا.",

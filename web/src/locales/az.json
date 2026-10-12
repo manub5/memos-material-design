@@ -242,6 +242,8 @@
     "no-language-feedback": "Dil tapılmadı? Rəy göndərin"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Təkliflər",
     "add-your-comment-here": "Şərhinizi bura yazın...",
     "any-thoughts": "Ağlınıza nə gəlir...",
@@ -323,6 +325,10 @@
     "disconnected": "Canlı yeniləmələr əlçatan deyil"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Sabitlənib",
     "parent-loading": "İlkin memo yüklənir…",
     "parent-load-error": "İlkin memonu yükləmək mümkün olmadı.",
@@ -337,6 +343,16 @@
     },
     "copy-content": "Məzmunu kopyala",
     "copy-link": "Keçidi kopyala",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{date}} tarixində {{count}} {{memos}}",
     "count-memos-updated-in-date": "{{date}} tarixində yenilənən {{count}} {{memos}}",
     "delete-confirm": "Bu qeydi silmək istədiyinizə əminsiniz?",

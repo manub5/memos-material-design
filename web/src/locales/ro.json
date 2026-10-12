@@ -183,6 +183,8 @@
     "no-language-feedback": "Limba nu a fost găsită? Trimiteți feedback"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Sugestii",
     "add-your-comment-here": "Adauga comentariul tau aici...",
     "any-thoughts": "Orice gânduri...",
@@ -264,6 +266,10 @@
     "disconnected": "Actualizări live indisponibile"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Fixat",
     "click-to-show-sensitive-content": "Faceți clic pentru a afișa conținut sensibil",
     "comment": {
@@ -272,6 +278,16 @@
     },
     "copy-content": "Copiați conținut",
     "copy-link": "Copiați linkul",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} în {{date}}",
     "count-memos-updated-in-date": "{{count}} {{memos}} actualizat pe {{date}}",
     "delete-confirm": "Sigur doriți să ștergeți această notă?",

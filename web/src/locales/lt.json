@@ -183,6 +183,8 @@
     "no-language-feedback": "Kalba nerasta? Pateikite atsiliepimą"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Pasiūlymai",
     "add-your-comment-here": "Pridėkite savo komentarą čia...",
     "any-thoughts": "Bet kokios mintys...",
@@ -264,6 +266,10 @@
     "disconnected": "Tiesioginiai naujinimai nepasiekiami"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Prisegta",
     "click-to-show-sensitive-content": "Spustelėkite, kad būtų rodomas jautrus turinys",
     "comment": {
@@ -272,6 +278,16 @@
     },
     "copy-content": "Kopijuoti turinį",
     "copy-link": "Kopijuoti nuorodą",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} {{date}}",
     "count-memos-updated-in-date": "{{count}} {{memos}} atnaujintas {{date}}",
     "delete-confirm": "Ar tikrai norite ištrinti šią atmintinę?",

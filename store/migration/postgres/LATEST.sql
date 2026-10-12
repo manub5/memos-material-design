@@ -61,11 +61,39 @@ CREATE TABLE memo (
   content TEXT NOT NULL,
   visibility TEXT NOT NULL DEFAULT 'PRIVATE',
   pinned BOOLEAN NOT NULL DEFAULT FALSE,
+  color TEXT NOT NULL DEFAULT '',
   payload JSONB NOT NULL DEFAULT '{}',
   space_id INTEGER DEFAULT NULL
 );
 
 CREATE INDEX idx_memo_space_id ON memo(space_id, row_status, created_ts DESC, id DESC);
+
+CREATE TABLE memo_order (
+  memo_id INTEGER PRIMARY KEY REFERENCES memo(id) ON DELETE CASCADE,
+  creator_id INTEGER NOT NULL,
+  rank BIGINT NOT NULL
+);
+CREATE INDEX idx_memo_order_creator_rank ON memo_order(creator_id, rank, memo_id);
+
+CREATE TABLE memo_order_revision (
+  creator_id INTEGER PRIMARY KEY,
+  revision BIGINT NOT NULL DEFAULT 0
+);
+
+CREATE FUNCTION bump_memo_collection_revision() RETURNS trigger AS $$
+BEGIN
+  IF TG_OP = 'DELETE' THEN
+    INSERT INTO memo_order_revision (creator_id, revision) VALUES (OLD.creator_id, 1)
+    ON CONFLICT (creator_id) DO UPDATE SET revision = memo_order_revision.revision + 1;
+    RETURN OLD;
+  END IF;
+  INSERT INTO memo_order_revision (creator_id, revision) VALUES (NEW.creator_id, 1)
+  ON CONFLICT (creator_id) DO UPDATE SET revision = memo_order_revision.revision + 1;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER memo_collection_revision AFTER INSERT OR UPDATE OR DELETE ON memo
+  FOR EACH ROW EXECUTE FUNCTION bump_memo_collection_revision();
 
 -- memo_relation
 CREATE TABLE memo_relation (

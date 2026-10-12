@@ -60,6 +60,7 @@ type Memo struct {
 	Content    string
 	Visibility Visibility
 	Pinned     bool
+	Color      string
 	Payload    *storepb.MemoPayload
 	SpaceID    *int32
 
@@ -92,6 +93,7 @@ type FindMemo struct {
 
 	// Ordering
 	OrderByPinned    bool
+	OrderByManual    bool
 	OrderByUpdatedTs bool
 	OrderByTimeAsc   bool
 }
@@ -114,6 +116,7 @@ type UpdateMemo struct {
 	Content    *string
 	Visibility *Visibility
 	Pinned     *bool
+	Color      *string
 	Payload    *storepb.MemoPayload
 	SpaceID    *int32
 	ClearSpace bool

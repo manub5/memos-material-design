@@ -183,6 +183,8 @@
     "no-language-feedback": "Valoda nav atrasta? Iesniedziet atsauksmes"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Ieteikumi",
     "add-your-comment-here": "Pievienojiet savu komentāru šeit...",
     "any-thoughts": "Jebkuras domas...",
@@ -264,6 +266,10 @@
     "disconnected": "Tiešraides atjauninājumi nav pieejami"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Piesprausts",
     "click-to-show-sensitive-content": "Noklikšķiniet, lai parādītu sensitīvu saturu",
     "comment": {
@@ -272,6 +278,16 @@
     },
     "copy-content": "Kopēt saturu",
     "copy-link": "Kopēt saiti",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} {{date}}",
     "count-memos-updated-in-date": "{{count}} {{memos}} atjaunināts uz {{date}}",
     "delete-confirm": "Vai tiešām vēlaties dzēst šo piezīmi?",

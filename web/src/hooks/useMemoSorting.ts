@@ -8,6 +8,11 @@ import type { Memo } from "@/types/proto/api/memo_service_pb";
 export interface UseMemoSortingOptions {
   pinnedFirst?: boolean;
   state?: State;
+  /**
+   * Owner timeline mode: rely on the server's manual order (rank ASC) instead of
+   * the chronological/pinned order kept for shared and mixed-author feeds.
+   */
+  manual?: boolean;
 }
 
 export interface UseMemoSortingResult {
@@ -35,33 +40,40 @@ export const hoistMemoToFront = (memos: Memo[], name: string | null): Memo[] => 
 };
 
 export const useMemoSorting = (options: UseMemoSortingOptions = {}): UseMemoSortingResult => {
-  const { pinnedFirst = false, state = State.NORMAL } = options;
+  const { pinnedFirst = false, state = State.NORMAL, manual = false } = options;
   const { orderByTimeAsc, timeBasis } = useView();
 
-  // Generate orderBy string for API
+  // Generate orderBy string for API. A manual owner timeline defers entirely to the
+  // server's rank order; every other feed keeps its chronological/pinned string.
   const orderBy = useMemo(() => {
+    if (manual) {
+      return "manual";
+    }
     const timeOrder = orderByTimeAsc ? `${timeBasis} asc` : `${timeBasis} desc`;
     return pinnedFirst ? `pinned desc, ${timeOrder}` : timeOrder;
-  }, [pinnedFirst, orderByTimeAsc, timeBasis]);
+  }, [manual, pinnedFirst, orderByTimeAsc, timeBasis]);
 
-  // Generate listSort function for client-side sorting
+  // Generate listSort function for client-side sorting. Under a manual order the server
+  // already sends the exact sequence, so keep it intact and only apply the state filter.
   const listSort = useMemo(() => {
     return (memos: Memo[]): Memo[] => {
-      return memos
-        .filter((memo) => memo.state === state)
-        .sort((a, b) => {
-          // First, sort by pinned status if enabled
-          if (pinnedFirst && a.pinned !== b.pinned) {
-            return b.pinned ? 1 : -1;
-          }
+      const matching = memos.filter((memo) => memo.state === state);
+      if (manual) {
+        return matching;
+      }
+      return matching.sort((a, b) => {
+        // First, sort by pinned status if enabled
+        if (pinnedFirst && a.pinned !== b.pinned) {
+          return b.pinned ? 1 : -1;
+        }
 
-          // Then sort by the selected time field.
-          const aTime = getMemoSortTime(a, timeBasis);
-          const bTime = getMemoSortTime(b, timeBasis);
-          return orderByTimeAsc ? dayjs(aTime).unix() - dayjs(bTime).unix() : dayjs(bTime).unix() - dayjs(aTime).unix();
-        });
+        // Then sort by the selected time field.
+        const aTime = getMemoSortTime(a, timeBasis);
+        const bTime = getMemoSortTime(b, timeBasis);
+        return orderByTimeAsc ? dayjs(aTime).unix() - dayjs(bTime).unix() : dayjs(bTime).unix() - dayjs(aTime).unix();
+      });
     };
-  }, [pinnedFirst, state, orderByTimeAsc, timeBasis]);
+  }, [manual, pinnedFirst, state, orderByTimeAsc, timeBasis]);
 
   return { listSort, orderBy };
 };

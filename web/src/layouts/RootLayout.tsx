@@ -85,7 +85,7 @@ const RootLayoutContent = () => {
       style={{ [SIDEBAR_WIDTH_VAR]: `${sidebarWidth}px` } as CSSProperties}
     >
       {md && (
-        <div className="fixed inset-y-0 start-0 z-30 w-(--app-sidebar-width) border-e border-border/70">
+        <div className="fixed inset-y-0 start-0 z-30 w-(--app-sidebar-width) border-e border-border/60">
           <AppSidebar />
           <SidebarResizeHandle
             width={sidebarWidth}

@@ -242,6 +242,8 @@
     "no-language-feedback": "Language not found? Submit feedback"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Suggestions",
     "add-your-comment-here": "Add your comment here...",
     "any-thoughts": "Any thoughts...",
@@ -323,6 +325,10 @@
     "disconnected": "Live updates unavailable"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Pinned",
     "parent-loading": "Loading original memo…",
     "parent-load-error": "Couldn’t load the original memo.",
@@ -337,6 +343,16 @@
     },
     "copy-content": "Copy Content",
     "copy-link": "Copy Link",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} in {{date}}",
     "count-memos-updated-in-date": "{{count}} {{memos}} updated on {{date}}",
     "delete-confirm": "Are you sure you want to delete this memo?",

@@ -216,6 +216,8 @@
     "no-language-feedback": "לא מצאתם את השפה? שלחו משוב"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "הצעות",
     "add-your-comment-here": "הוסיפו את התגובה שלכם כאן...",
     "any-thoughts": "יש מחשבות...",
@@ -297,6 +299,10 @@
     "disconnected": "עדכונים חיים אינם זמינים"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "נעוץ",
     "click-to-show-sensitive-content": "לחצו כדי להציג תוכן רגיש",
     "comment": {
@@ -305,6 +311,16 @@
     },
     "copy-content": "העתק תוכן",
     "copy-link": "העתק קישור",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} בתאריך {{date}}",
     "count-memos-updated-in-date": "עודכנו {{count}} {{memos}} בתאריך {{date}}",
     "delete-confirm": "האם אתם בטוחים שברצונכם למחוק את הפתק הזה?\n\nפעולה זו אינה הפיכה",

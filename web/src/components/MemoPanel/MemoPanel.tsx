@@ -130,9 +130,9 @@ export function MemoPanel({ open, title, subtitle, reservedWidth, busy = false, 
           className={cn(
             // A popover surface: lighter than the page in both themes, with the float shadow
             // rather than the tight card shadow, so a 400px card reads as lifted, not pasted on.
-            "fixed z-30 flex min-h-0 flex-col border border-border/70 bg-popover text-popover-foreground shadow-float outline-none transition-transform duration-200",
+            "fixed z-30 flex min-h-0 flex-col border border-border/60 bg-popover text-popover-foreground shadow-float outline-none transition-transform duration-200",
             desktop
-              ? "inset-y-3 end-3 w-[var(--memo-panel-width)] rounded-xl data-starting-style:translate-x-full data-ending-style:translate-x-full"
+              ? "inset-y-3 end-3 w-[var(--memo-panel-width)] rounded-2xl data-starting-style:translate-x-full data-ending-style:translate-x-full"
               : "inset-x-0 bottom-0 rounded-t-2xl pb-[env(safe-area-inset-bottom)] data-starting-style:translate-y-full data-ending-style:translate-y-full",
           )}
         >

@@ -21,6 +21,7 @@ import MemoFilters from "../MemoFilters";
 import Placeholder from "../Placeholder";
 import MemoListError from "./MemoListError";
 import { estimateMemoCardHeight } from "./memoCardHeight";
+import { useMemoReorder } from "./useMemoReorder";
 
 // Memo identity for React keys and grid planning. The pages use it for their renderer keys too,
 // so flow-list and grid identity can never drift apart. Deliberately name-only: content updates
@@ -38,7 +39,9 @@ const Loader = () => (
 );
 
 interface Props {
-  renderer: (memo: Memo, options: { compact: boolean }) => ReactElement;
+  renderer: (memo: Memo, options: { compact: boolean; dragHandle?: ReactNode }) => ReactElement;
+  /** Opt-in reserved for Home's unfiltered all-Spaces owner timeline. */
+  reorderEnabled?: boolean;
   listSort?: (list: Memo[]) => Memo[];
   state?: State;
   orderBy?: string;
@@ -111,12 +114,14 @@ function useAutoFetchWhenNotScrollable({
   }, [enabled]);
 
   useEffect(() => {
+    enabledRef.current = enabled;
     return () => {
+      enabledRef.current = false;
       if (autoFetchTimeoutRef.current) {
         clearTimeout(autoFetchTimeoutRef.current);
       }
     };
-  }, []);
+  }, [enabled]);
 }
 
 const PagedMemoList = (props: Props) => {
@@ -165,9 +170,9 @@ const PagedMemoList = (props: Props) => {
   // Tag settings decide whether sensitive memo content must be blurred. Keep that
   // privacy boundary, but do not wait for unrelated memo views or instance settings.
   const isDisplayPending = isLoading || !isUserSettingsInitialized;
-  // A failed first page leaves nothing to show; a failed later page keeps what already
-  // loaded. Either way, automatic pagination pauses until the user retries.
-  const isInitialError = isError && !isFetchNextPageError;
+  // Failed pagination or background refreshes retain cached cards and their drafts.
+  // Only an error with no cached data replaces the list entirely.
+  const isInitialError = isError && !isFetchNextPageError && !data;
   const canPaginate = !isDisplayPending && !isError;
   const showLoader = useDelayedFlag(isDisplayPending, LOADING_INDICATOR_DELAY_MS);
 
@@ -179,8 +184,9 @@ const PagedMemoList = (props: Props) => {
   const { newMemoName } = useNewMemo();
   const sortedMemoList = useMemo(() => {
     const sorted = props.listSort ? props.listSort(memos) : memos;
-    return hoistMemoToFront(sorted, newMemoName);
-  }, [memos, props.listSort, newMemoName]);
+    // Manual ranks already place new memos first; a later move must remain authoritative.
+    return props.orderBy === "manual" ? sorted : hoistMemoToFront(sorted, newMemoName);
+  }, [memos, props.listSort, props.orderBy, newMemoName]);
 
   // Auto-fetch hook: fetches more content when page isn't scrollable
   useAutoFetchWhenNotScrollable({
@@ -211,9 +217,31 @@ const PagedMemoList = (props: Props) => {
 
   // A freshly created memo is hoisted to the front; pin it to the top of column one so it
   // appears right under the composer instead of dropping into a random (shortest) column.
-  const displayMemoList = isDisplayPending || isInitialError ? [] : sortedMemoList;
+  const reorder = useMemoReorder({
+    memos: isDisplayPending || isInitialError ? [] : sortedMemoList,
+    enabled: Boolean(props.reorderEnabled && props.orderBy === "manual" && !isDisplayPending && !isError),
+    containerRef: layoutMeasureRef,
+    scope: `${props.contextFilter ?? ""}|${props.filter ?? ""}|${useGrid}|${props.orderBy}`,
+    refetch,
+  });
+  const displayMemoList = reorder.items;
+  const renderMemo = (memo: Memo) => (
+    <div key={getMemoKey(memo)} data-memo-reorder-item={memo.name} className={cn("relative flow-root w-full", useGrid && "[&>*]:mb-0")}>
+      {props.renderer(memo, {
+        compact: effectiveCompact,
+        ...(props.reorderEnabled && props.orderBy === "manual" ? { dragHandle: reorder.dragHandle(memo) } : {}),
+      })}
+      {reorder.destinationName === memo.name && (
+        <div
+          data-reorder-placeholder
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-xl border-2 border-dashed border-primary bg-primary/5"
+        />
+      )}
+    </div>
+  );
   const firstMemo = displayMemoList[0];
-  const priorityKey = newMemoName && firstMemo?.name === newMemoName ? getMemoKey(firstMemo) : undefined;
+  const priorityKey = props.orderBy !== "manual" && newMemoName && firstMemo?.name === newMemoName ? getMemoKey(firstMemo) : undefined;
 
   // Stable reference so MentionResolutionProvider's memo (keyed on the array) actually holds.
   const contents = useMemo(() => displayMemoList.map((memo) => memo.content), [displayMemoList]);
@@ -249,7 +277,7 @@ const PagedMemoList = (props: Props) => {
       />
     ) : null;
   const initialError = isInitialError ? errorNotice : null;
-  const pageError = isFetchNextPageError ? errorNotice : null;
+  const pageError = isError && !isInitialError ? errorNotice : null;
 
   // Column one is the action column: the composer and any active filters head it, and the
   // empty state follows them. The newest memo also lands directly beneath them (priorityKey
@@ -278,6 +306,7 @@ const PagedMemoList = (props: Props) => {
   const children = (
     <MentionResolutionProvider contents={contents} userNames={userNames}>
       <div ref={layoutMeasureRef} className="w-full">
+        {reorder.status}
         <div className={cn("flex flex-col justify-start w-full mx-auto", useGrid ? "max-w-none" : "max-w-2xl")}>
           {useGrid ? (
             <>
@@ -285,7 +314,7 @@ const PagedMemoList = (props: Props) => {
                 <ColumnGrid
                   items={displayMemoList}
                   getKey={getMemoKey}
-                  renderItem={(memo) => props.renderer(memo, { compact: effectiveCompact })}
+                  renderItem={renderMemo}
                   estimateHeight={estimateMemoCardHeight}
                   header={headerContent}
                   leading={gridLeading}
@@ -303,7 +332,7 @@ const PagedMemoList = (props: Props) => {
               <MemoFilters className="mb-2" />
               {initialLoader}
               {initialError}
-              {displayMemoList.map((memo) => props.renderer(memo, { compact: effectiveCompact }))}
+              {displayMemoList.map(renderMemo)}
               {emptyPlaceholder}
               {!isDisplayPending && footer}
             </>

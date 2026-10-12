@@ -145,6 +145,8 @@
     "no-language-feedback": "Jezik nije pronađen? Pošaljite povratne informacije"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Prijedlozi",
     "add-your-comment-here": "Dodaj svoj komentar ovdje...",
     "any-thoughts": "Imaš li misli...",
@@ -226,6 +228,10 @@
     "disconnected": "Ažuriranja uživo nisu dostupna"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Prikvačeno",
     "click-to-show-sensitive-content": "Klikni za prikaz osjetljivog sadržaja",
     "comment": {
@@ -234,6 +240,16 @@
     },
     "copy-content": "Kopiraj sadržaj",
     "copy-link": "Kopiraj link",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} na {{date}}",
     "delete-confirm": "Jesi li siguran da želiš obrisati ovaj memo? OVA AKCIJA JE NEPOVRATNA",
     "delete-confirm-description": "Ova akcija je nepovratna. Privici, linkovi i reference će također biti uklonjeni.",

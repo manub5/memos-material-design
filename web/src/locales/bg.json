@@ -183,6 +183,8 @@
     "no-language-feedback": "Езикът не е намерен? Изпратете обратна връзка"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Предложения",
     "add-your-comment-here": "Добавете своя коментар тук...",
     "any-thoughts": "Някакви мисли...",
@@ -264,6 +266,10 @@
     "disconnected": "Не са налични актуализации на живо"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Закачено",
     "click-to-show-sensitive-content": "Кликнете, за да покажете чувствително съдържание",
     "comment": {
@@ -272,6 +278,16 @@
     },
     "copy-content": "Копиране на съдържание",
     "copy-link": "Копиране на връзката",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} в {{date}}",
     "count-memos-updated-in-date": "{{count}} {{memos}} актуализиран на {{date}}",
     "delete-confirm": "Сигурни ли сте, че искате да изтриете тази бележка?",

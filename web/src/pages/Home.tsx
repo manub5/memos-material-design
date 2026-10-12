@@ -22,7 +22,7 @@ const Home = () => {
   const t = useTranslate();
   const { isUserSettingsInitialized } = useAuth();
   const { claimHomeAutoFocus } = useGlobalMemoEditor();
-  const { filters } = useMemoFilterContext();
+  const { filters, memoView } = useMemoFilterContext();
   const { memoFilter: contextFilter, selectedSpaceName, creatorUsername } = useSpaceContext();
   const defaultCreateTime = useMemo(() => deriveDefaultCreateTimeFromFilters(filters), [filters]);
   // Doubles as the remount key: the draft cache only reloads on mount, so the editor
@@ -37,9 +37,13 @@ const Home = () => {
   // Pinning is the owner's arrangement of their own memos, so it only shapes a single
   // creator's feed; a mixed-author feed like Explore stays purely chronological.
   const honorPinned = Boolean(creatorUsername);
+  // The owner's own timeline uses the synchronized manual order from the API. Feeds
+  // scoped to another creator (profiles) keep their chronological presentation.
+  const manualOrder = Boolean(user) && creatorUsername === user?.username && !selectedSpaceName && filters.length === 0 && !memoView;
 
   const { listSort, orderBy } = useMemoSorting({
     pinnedFirst: honorPinned,
+    manual: manualOrder,
     state: State.NORMAL,
   });
 
@@ -47,7 +51,8 @@ const Home = () => {
     <div className="w-full min-h-full bg-background text-foreground">
       <NewMemoProvider>
         <PagedMemoList
-          renderer={(memo: Memo, { compact }) => (
+          reorderEnabled={manualOrder}
+          renderer={(memo: Memo, { compact, dragHandle }) => (
             <MemoView
               key={getMemoKey(memo)}
               memo={memo}
@@ -56,6 +61,7 @@ const Home = () => {
               showPinned={honorPinned}
               showSpace={!selectedSpaceName}
               compact={compact}
+              dragHandle={dragHandle}
             />
           )}
           listSort={listSort}

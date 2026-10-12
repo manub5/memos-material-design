@@ -145,6 +145,8 @@
     "no-language-feedback": "Язык не найден? Отправить отзыв"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Предложения",
     "add-your-comment-here": "Напишите свой комментарий...",
     "any-thoughts": "Напишите что-нибудь...",
@@ -226,6 +228,10 @@
     "disconnected": "Оперативные обновления недоступны."
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Закреплено",
     "click-to-show-sensitive-content": "Нажмите, чтобы посмотреть",
     "comment": {
@@ -234,6 +240,16 @@
     },
     "copy-content": "Копировать контент",
     "copy-link": "Скопировать ссылку",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} за {{date}}",
     "delete-confirm": "Вы уверены, что хотите удалить эту запись?\nЭТО ДЕЙСТВИЕ НЕЛЬЗЯ ОТМЕНИТЬ!",
     "delete-confirm-description": "Это действие нельзя отменить. Вложения, ссылки и упоминания также будут удалены.",

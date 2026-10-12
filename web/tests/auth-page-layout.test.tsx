@@ -38,6 +38,15 @@ describe("<AuthPageLayout> explore band", () => {
     expect(screen.getByRole("link", { name: /auth\.explore-public-memos/ })).toHaveAttribute("href", "/explore");
   });
 
+  it("keeps the public exploration band inside the rounded card surface", () => {
+    instance.accessMode = InstanceAccessMode.PUBLIC;
+    renderLayout();
+
+    const link = screen.getByRole("link", { name: /auth\.explore-public-memos/ });
+    expect(link.closest(".bg-card")).toHaveClass("rounded-2xl", "shadow-sm");
+    expect(link.parentElement).toHaveClass("rounded-b-2xl");
+  });
+
   it("omits the band on private instances even when an instance URL is configured", () => {
     renderLayout();
 

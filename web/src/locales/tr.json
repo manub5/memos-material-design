@@ -171,6 +171,8 @@
     "no-language-feedback": "Dil bulunamadı mı? Geri bildirim gönder"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Öneriler",
     "add-your-comment-here": "Yorumunuzu buraya ekleyin...",
     "any-thoughts": "Düşünceleriniz...",
@@ -252,6 +254,10 @@
     "disconnected": "Canlı güncellemeler kullanılamıyor"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Sabitlendi",
     "parent-loading": "Özgün not yükleniyor…",
     "parent-load-error": "Özgün not yüklenemedi.",
@@ -266,6 +272,16 @@
     },
     "copy-content": "İçeriği kopyala",
     "copy-link": "Bağlantıyı Kopyala",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{date}} tarihinde {{count}} {{memos}}",
     "delete-confirm": "Bu notu silmek istediğinizden emin misiniz?",
     "delete-confirm-description": "Bu işlem geri alınamaz. Ekler, bağlantılar ve referanslar da kaldırılacaktır.",

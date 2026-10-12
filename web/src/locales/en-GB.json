@@ -145,6 +145,8 @@
     "no-language-feedback": "Language not found? Submit feedback"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Suggestions",
     "add-your-comment-here": "Add your comment here...",
     "any-thoughts": "Any thoughts...",
@@ -226,6 +228,10 @@
     "disconnected": "Live updates unavailable"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Pinned",
     "click-to-show-sensitive-content": "Click to show sensitive content",
     "comment": {
@@ -234,6 +240,16 @@
     },
     "copy-content": "Copy Content",
     "copy-link": "Copy Link",
+    "color": "Colour",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} in {{date}}",
     "delete-confirm": "Are you sure you want to delete this memo?",
     "delete-confirm-description": "This action is irreversible. Attachments, links, and references will also be removed.",

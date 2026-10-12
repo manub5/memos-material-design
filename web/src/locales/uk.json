@@ -145,6 +145,8 @@
     "no-language-feedback": "Мова не знайдена? Надіслати відгук"
   },
   "editor": {
+    "reorder-list-item": "Reorder list item",
+    "reorder-list-drop-target": "Drop here",
     "suggestions": "Пропозиції",
     "add-your-comment-here": "Додайте свій коментар тут...",
     "any-thoughts": "Якісь думки...",
@@ -226,6 +228,10 @@
     "disconnected": "Оновлення в реальному часі недоступні"
   },
   "memo": {
+    "reorder": "Reorder memo",
+    "reorder-position": "Position {{position}} of {{total}} loaded memos",
+    "reorder-active": "Reordering memo.",
+    "reorder-error": "Couldn't reorder this memo. Try again.",
     "pinned": "Закріплено",
     "click-to-show-sensitive-content": "Натисніть, щоб показати NSFW-контент",
     "comment": {
@@ -234,6 +240,16 @@
     },
     "copy-content": "Копіювати вміст",
     "copy-link": "Скопіювати посилання",
+    "color": "Color",
+    "color-neutral": "None",
+    "colors": {
+      "lavender": "Lavender",
+      "sage": "Sage",
+      "sky": "Sky",
+      "amber": "Amber",
+      "rose": "Rose",
+      "peach": "Peach"
+    },
     "count-memos-in-date": "{{count}} {{memos}} в {{date}}",
     "delete-confirm": "Ви впевнені, що хочете видалити цю нотатку? ЦЯ ДІЯ Є НЕВІДКЛИКНОЮ",
     "delete-confirm-description": "Ця дія є незворотною. Вкладення, посилання та посилання також буде видалено.",

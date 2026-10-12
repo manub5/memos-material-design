@@ -63,6 +63,7 @@ func TestProtectedMethodsRequireAuth(t *testing.T) {
 		"/memos.api.MemoService/CreateMemo",
 		"/memos.api.MemoService/UpdateMemo",
 		"/memos.api.MemoService/DeleteMemo",
+		"/memos.api.MemoService/MoveMemo",
 		// Space Service - every operation requires an authenticated member.
 		"/memos.api.SpaceService/CreateSpace",
 		"/memos.api.SpaceService/ListSpaces",

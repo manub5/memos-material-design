@@ -145,6 +145,8 @@
     "no-language-feedback": "Langue introuvable ? Soumettre des commentaires"
   },
   "editor": {
+    "reorder-list-item": "Réordonner l’élément de liste",
+    "reorder-list-drop-target": "Déposer ici",
     "suggestions": "Suggestions",
     "add-your-comment-here": "Ajoutez votre commentaire ici...",
     "any-thoughts": "Des idées...",
@@ -226,11 +228,25 @@
     "disconnected": "Mises à jour en direct indisponibles"
   },
   "memo": {
+    "reorder": "Déplacer le mémo",
+    "reorder-position": "Position {{position}} sur {{total}} mémos chargés",
+    "reorder-active": "Déplacement du mémo en cours.",
+    "reorder-error": "Impossible de déplacer ce mémo. Réessayez.",
     "pinned": "Épinglé",
     "click-to-show-sensitive-content": "Cliquez pour afficher le contenu sensible",
     "comment": {
       "self": "Commentaires",
       "write-a-comment": "Écrire un commentaire"
+    },
+    "color": "Couleur",
+    "color-neutral": "Aucune",
+    "colors": {
+      "lavender": "Lavande",
+      "sage": "Sauge",
+      "sky": "Ciel",
+      "amber": "Ambre",
+      "rose": "Rose",
+      "peach": "Pêche"
     },
     "copy-content": "Copier le contenu",
     "copy-link": "Copier le lien",
