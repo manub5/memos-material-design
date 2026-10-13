@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+  - repo: https://github.com/semgrep/pre-commit
+    rev: v1.180.0
+    hooks:
+      - id: semgrep
+        args: ["--config", "auto", "--error"]
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks
+  - repo: local
+    hooks:
+      - id: pas-de-chemin-perso
+        name: Refuser les chemins /home/<utilisateur>
+        language: pygrep
+        entry: "/home/[a-z_][a-z0-9_-]*/"
+        types: [text]
