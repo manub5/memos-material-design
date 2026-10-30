@@ -12,6 +12,19 @@ Memos is a self-hosted note-taking app.
 - Storage: SQLite, MySQL, PostgreSQL.
 - Generated API outputs: `proto/gen/` for Go/OpenAPI, `web/src/types/proto/` for TypeScript.
 
+## Fork Material doux
+
+This repository is a personal fork of `usememos/memos` (remotes: `fork` = GitHub fork, `upstream` = usememos/memos). Work happens on the `material-doux` branch.
+
+Changes specific to this fork:
+
+- Material doux visual foundation (theme tokens, shared controls, cards, editor).
+- Memo colors: a validated palette field on `Memo`.
+- Owner-scoped manual order: separate ranks table, atomic move RPC, `order_by=manual` on the owner's own timeline only. Migrations exist for all three SQL drivers.
+- Drag handles (Pointer Events, no new dependency) to reorder memo cards and Markdown list items.
+
+Fork history (specs, plans, reviews) lives in `docs/superpowers/`. It is not covered by the "frozen designs" rule for `docs/design/`. Plans there record intent at the time; verify current behavior in source code and tests.
+
 ## Working Rules
 
 - Read relevant code before editing; prefer local patterns over new abstractions.
